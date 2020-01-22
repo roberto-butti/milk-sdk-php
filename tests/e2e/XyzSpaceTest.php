@@ -26,10 +26,7 @@ class XyzSpaceTest  extends TestCase
 
     public function testGetOneSpace() {
 
-
-
         $xyzSpace = new XyzSpace(XyzConfig::getInstance());
-
 
         $o = $xyzSpace->includeRights()->spaceId("bB6WZ2Sb")->get();
         $this->assertEquals("bB6WZ2Sb", $o->id, "Testing List 1 space");

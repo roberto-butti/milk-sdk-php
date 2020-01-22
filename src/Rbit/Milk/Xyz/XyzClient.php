@@ -92,28 +92,24 @@ class XyzClient
      * @return mixed
      */
     public function get() {
-        return json_decode($this->getResponse()->getBody());
+        $cache_tag = md5( $this->uri . $this->contentType . $this->method );
+        $file_cache = "./cache/".$cache_tag;
+        if (file_exists($file_cache)) {
+            $content = file_get_contents($file_cache);
+        } else {
+            $content = $this->getResponse()->getBody();
+            file_put_contents($file_cache, $content);
+        }
+        return json_decode($content);
     }
 
 
     public function call($uri, $contentType= 'application/json', $method) {
-        $stack = HandlerStack::create();
-        $stack->push(
-            new CacheMiddleware(
-                new PrivateCacheStrategy(
-                    new FlysystemStorage(
-                        new Local('/tmp/mycache')
-                    )
-                )
-            ),
-            'cache'
-        );
-
-        $client = new Client(['handler' => $stack]);
+        $client = new Client();
         $res = $client->request($method, $this->c->getHostname() . $uri, [
             //'debug' => true,
             'headers' => [
-                'User-Agent' => 'php-app/1.0',
+                'User-Agent' => 'milk-sdk-php/0.1.0',
                 'Accept'     => $contentType,
                 'Authorization' => "Bearer {$this->c->getCredentials()->getAccessToken()}"
             ]
