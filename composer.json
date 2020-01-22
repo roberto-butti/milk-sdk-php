@@ -1,0 +1,29 @@
+{
+    "name": "rbit/milk-sdk-php",
+    "description": "Package for consuming XYZ API from PHP",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Roberto B.",
+            "email": "roberto.butti@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {"Rbit\\Milk\\": "src/Rbit/Milk"}
+    },
+    "autoload-dev": {
+        "classmap": ["tests"]
+    },
+    "require": {
+        "php": ">=7.4.0",
+        "vlucas/phpdotenv": "^4.1@dev",
+        "guzzlehttp/guzzle": "~6.0",
+        "kevinrob/guzzle-cache-middleware": "dev-master",
+        "league/flysystem": "^1.1@dev"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0"
+    }
+}
