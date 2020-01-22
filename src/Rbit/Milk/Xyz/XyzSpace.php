@@ -2,8 +2,8 @@
 
 
 namespace Rbit\Milk\Xyz;
-use GuzzleHttp\Exception\RequestException;
 
+use GuzzleHttp\Exception\RequestException;
 
 /**
  * Class XyzSpace
@@ -11,33 +11,34 @@ use GuzzleHttp\Exception\RequestException;
  */
 class XyzSpace extends XyzClient
 {
-
-    private $spaceId="";
+    private $spaceId = "";
+    const API_SPACES = "/hub/spaces";
 
     public function __construct(XyzConfig $c)
     {
         parent::__construct($c);
         $this->reset();
-
     }
 
-    public function reset() {
+    public function reset()
+    {
         parent::reset();
-        $this->uri = "/hub/spaces";
+        $this->uri = self::API_SPACES;
         $this->spaceId = "";
-
     }
 
 
 
 
     /**
+     * Set the space id in the API
      * @param string $id
      * @return $this
      */
-    public function spaceId(string $id) {
+    public function spaceId(string $id): XyzSpace
+    {
         $this->spaceId = $id;
-        $this->uri = "/hub/spaces/".$id;
+        $this->uri = self::API_SPACES . "/" . $id;
         return $this;
     }
 
@@ -47,7 +48,8 @@ class XyzSpace extends XyzClient
      * The access rights for each space are included in the response.
      * @return $this
      */
-    public function includeRights() {
+    public function includeRights(): XyzSpace
+    {
         $this->addQueryParam("includeRights", "true");
         return $this;
     }
@@ -56,7 +58,8 @@ class XyzSpace extends XyzClient
      * Define the owner(s) of spaces to be shown in the response.
      * @return $this
      */
-    public function owner( $owner = "me") {
+    public function owner($owner = "me"): XyzSpace
+    {
         $this->addQueryParam("owner", $owner);
         return $this;
     }
@@ -65,7 +68,8 @@ class XyzSpace extends XyzClient
      * Show only the spaces being owned by the current user.
      * @return $this
      */
-    public function ownerMe() {
+    public function ownerMe(): XyzSpace
+    {
         return $this->owner("owner");
     }
 
@@ -73,15 +77,16 @@ class XyzSpace extends XyzClient
      * Only for shared spaces: Explicitly only show spaces belonging to the specified user.
      * @return $this
      */
-    public function ownerSomeOther($ownerId) {
+    public function ownerSomeOther($ownerId): XyzSpace
+    {
         return $this->owner($ownerId);
     }
 
     /**
      * Show only the spaces having been shared excluding the own ones.
-     * @return $this
      */
-    public function ownerOthers() {
+    public function ownerOthers(): XyzSpace
+    {
         return $this->owner("others");
     }
 
@@ -89,16 +94,8 @@ class XyzSpace extends XyzClient
      * Show all spaces the current user has access to.
      * @return $this
      */
-    public function ownerAll() {
+    public function ownerAll(): XyzSpace
+    {
         return $this->owner("*");
     }
-
-
-
-
-
-
-
-
-
 }
