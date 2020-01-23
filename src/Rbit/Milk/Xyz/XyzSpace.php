@@ -27,9 +27,6 @@ class XyzSpace extends XyzClient
         $this->spaceId = "";
     }
 
-
-
-
     /**
      * Set the space id in the API
      * @param string $id
@@ -41,8 +38,6 @@ class XyzSpace extends XyzClient
         $this->uri = self::API_SPACES . "/" . $id;
         return $this;
     }
-
-
 
     /**
      * The access rights for each space are included in the response.

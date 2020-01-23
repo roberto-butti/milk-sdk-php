@@ -16,7 +16,7 @@ class XyzClient
 {
     private XyzConfig $c;
     protected $uri;
-    private $contentType;
+    protected $contentType;
     private $method;
 
 
@@ -74,17 +74,12 @@ class XyzClient
      */
     public function getResponse() {
         try {
-
-
-
-
             $res = $this->call($this->uri, $this->contentType, $this->method);
         } catch (RequestException $e) {
             if ($e->hasResponse()) {
                 $res = $e->getResponse();
             }
         }
-
         return $res;
     }
 
