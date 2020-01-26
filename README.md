@@ -43,7 +43,7 @@ To get XYZ Spaces by everybody (not only your own XYZ Spaces):
 ```php
 /** XyzSpace $xyzSpace */
 $xyzSpace = new XyzSpace(XyzConfig::getInstance());
-$s = $xyzSpace->get();
+$s = $xyzSpace->ownerAll()->get();
 ````
 
 
