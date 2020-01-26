@@ -24,8 +24,7 @@ class XyzClient
     const API_SPACES_ITERATE = "/hub/spaces/{spaceId}/iterate";
     const API_SPACES_STATISTICS = "/hub/spaces/{spaceId}/statistics";
     const API_SPACES = "/hub/spaces";
-
-
+    const API_SPACES_DETAIL = "/hub/spaces/{spaceId}";
 
     public function __construct(XyzConfig $c)
     {
@@ -33,20 +32,23 @@ class XyzClient
         $this->reset();
     }
 
-    protected function reset() {
-        $this->uri = "/";
+    protected function reset()
+    {
+        $this->uri = "";
         $this->contentType = "application/json";
         $this->method = "GET";
     }
 
-    public function setToken(string $token) {
+    public function setToken(string $token)
+    {
         $this->c->getCredentials()->setAccessToken($token);
     }
     /**
      * @param string $method
      * @return $this
      */
-    public function method(string $method) {
+    public function method(string $method)
+    {
         $this->method= $method;
         return $this;
     }
@@ -55,7 +57,8 @@ class XyzClient
      * Set the GET method
      * @return $this
      */
-    public function httpGet() {
+    public function httpGet()
+    {
         return $this->method("GET");
     }
 
@@ -63,7 +66,8 @@ class XyzClient
      * Set the POST method
      * @return $this
      */
-    public function httpPost() {
+    public function httpPost()
+    {
         return $this->method("POST");
     }
 
@@ -71,7 +75,8 @@ class XyzClient
      * @param $name
      * @param $value
      */
-    protected function addQueryParam($name, $value) {
+    protected function addQueryParam($name, $value)
+    {
         //$this->uri = $this->uri . "?" . $name . "=" .$value;
         $this->uri .= (parse_url($this->uri, PHP_URL_QUERY) ? '&' : '?') . urlencode($name) . '=' . urlencode($value);
     }
@@ -79,7 +84,8 @@ class XyzClient
     /**
      * @return \Psr\Http\Message\ResponseInterface|null
      */
-    public function getResponse() {
+    public function getResponse()
+    {
         try {
             $res = $this->call($this->uri, $this->contentType, $this->method);
         } catch (RequestException $e) {
@@ -93,8 +99,9 @@ class XyzClient
     /**
      * @return mixed
      */
-    public function get() {
-        $cache_tag = md5( $this->uri . $this->contentType . $this->method );
+    public function get()
+    {
+        $cache_tag = md5($this->uri . $this->contentType . $this->method);
         $file_cache = "./cache/".$cache_tag;
         if (file_exists($file_cache)) {
             $content = file_get_contents($file_cache);
@@ -114,7 +121,8 @@ class XyzClient
     }
 
 
-    public function call($uri, $contentType= 'application/json', $method) {
+    public function call($uri, $contentType= 'application/json', $method)
+    {
         $client = new Client();
         $res = $client->request($method, $this->c->getHostname() . $uri, [
             //'debug' => true,
@@ -129,4 +137,16 @@ class XyzClient
         return $res;
     }
 
+    /**
+     * Set the space id in the API
+     * @param string $id
+     * @return $this
+     */
+    public function spaceId(string $id): XyzSpace
+    {
+        $this->spaceId = $id;
+        $this->switchUrl(self::API_SPACES_DETAIL);
+        $this->uri = str_replace("{spaceId}", $this->spaceId, $this->uri);
+        return $this;
+    }
 }

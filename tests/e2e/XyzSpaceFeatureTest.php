@@ -9,8 +9,7 @@ class XyzSpaceFeatureTest extends TestCase
     public function testGetListSpaces()
     {
         $xyzSpaceFeature = new XyzSpaceFeature(XyzConfig::getInstance());
-        $o = $xyzSpaceFeature->spaceId("bB6WZ2Sb")->iterate()->getResponse();
+        $o = $xyzSpaceFeature->iterate("bB6WZ2Sb")->getResponse();
         $this->assertEquals(200, $o->getStatusCode(), "Testing List Feature");
-
     }
 }

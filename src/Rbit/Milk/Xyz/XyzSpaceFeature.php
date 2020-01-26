@@ -11,10 +11,7 @@ use GuzzleHttp\Exception\RequestException;
  */
 class XyzSpaceFeature extends XyzClient
 {
-
-
     private string $featureId ="";
-
 
     public function __construct(XyzConfig $c)
     {
@@ -32,28 +29,13 @@ class XyzSpaceFeature extends XyzClient
         $this->spaceId = "";
     }
 
-
-    /**
-     * Set the space id in the API
-     * @param string $id
-     * @return $this
-     */
-    public function spaceId(string $id): XyzSpaceFeature
+    public function iterate($spaceId): XyzSpaceFeature
     {
-        $this->spaceId = $id;
-        $this->uri = str_replace("{spaceId}", $this->spaceId, $this->uri);
-        return $this;
-    }
-
-
-
-
-
-    public function iterate(): XyzSpaceFeature
-    {
+        $this->spaceId = $spaceId;
         $this->switchUrl(self::API_SPACES_ITERATE);
         return $this;
     }
+
     /**
      * Set the feature id in the API
      * @param string $id
@@ -64,6 +46,5 @@ class XyzSpaceFeature extends XyzClient
         $this->featureId = $id;
         return $this;
     }
-
 
 }
