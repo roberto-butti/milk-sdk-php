@@ -4,7 +4,6 @@ use PHPUnit\Framework\TestCase;
 
 class XyzCredentialTest extends TestCase
 {
-
     public function testLoadAccessToken()
     {
         /** @var Dotenv\Dotenv $dotenv */
@@ -34,10 +33,5 @@ class XyzCredentialTest extends TestCase
         //print_r($xyzSpace->httpGet()->includeRights()->get());
         //$credential = new \Rbit\Milk\Xyz\XyzCredentials("", $xyzCryptoSecret,  $xyzEncryptedToken);
         //$this->assertEquals($xyzToken, $credential->getAccessToken());
-
-
-
-
-
     }
 }

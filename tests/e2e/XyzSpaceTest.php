@@ -4,13 +4,10 @@ use PHPUnit\Framework\TestCase;
 use \Rbit\Milk\Xyz\XyzSpace;
 use \Rbit\Milk\Xyz\XyzConfig;
 
-
-class XyzSpaceTest  extends TestCase
+class XyzSpaceTest extends TestCase
 {
-
-
-    public function testGetListSpaces() {
-
+    public function testGetListSpaces()
+    {
         $xyzSpace = new XyzSpace(XyzConfig::getInstance());
         $this->assertIsArray($xyzSpace->get(), "Testing List spaces as array");
 
@@ -20,12 +17,10 @@ class XyzSpaceTest  extends TestCase
 
         $xyzSpace->reset();
         $this->assertIsArray($xyzSpace->ownerAll()->get(), "Testing List spaces with Owner all");
-
-
     }
 
-    public function testGetOneSpace() {
-
+    public function testGetOneSpace()
+    {
         $xyzSpace = new XyzSpace(XyzConfig::getInstance());
 
         $o = $xyzSpace->includeRights()->spaceId("bB6WZ2Sb")->get();
@@ -43,36 +38,5 @@ class XyzSpaceTest  extends TestCase
         $xyzSpace->reset();
         $o = $xyzSpace->spaceId("aa")->getResponse();
         $this->assertEquals(401, $o->getStatusCode(), "Testing Space no permission wrong token, 401 http status");
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
