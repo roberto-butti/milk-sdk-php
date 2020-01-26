@@ -30,8 +30,8 @@ make test
 Create your .env file
 ## Start to play with XYZ Spaces
 
+### Spaces
 To get your XYZ Spaces:
-
 ```php
 /** XyzSpace $xyzSpace */
 $xyzSpace = new XyzSpace(XyzConfig::getInstance());
@@ -39,17 +39,26 @@ $s = $xyzSpace->get();
 ```
 
 To get XYZ Spaces by everybody (not only your own XYZ Spaces):
-
 ```php
 /** XyzSpace $xyzSpace */
 $xyzSpace = new XyzSpace(XyzConfig::getInstance());
 $s = $xyzSpace->ownerAll()->get();
 ```
 
+### Statistics
 The get statistics from XYZ Space:
-
 ```php
 $xyzSpace = new XyzSpace(XyzConfig::getInstance());
 $o1 = $xyzSpace->spaceId($spaceId)->statistics()->get();
 ```
+
+### Features
+Iterate features
+
+```php
+/** XyzSpaceFeature $xyzSpaceFeature */
+$xyzSpaceFeature = new XyzSpaceFeature(XyzConfig::getInstance());
+$result = $xyzSpaceFeature->iterate($spaceId)->get();
+```
+
 
