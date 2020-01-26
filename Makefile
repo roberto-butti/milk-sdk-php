@@ -3,7 +3,7 @@
 it: cs test
 
 coverage: vendor
-	vendor/bin/phpunit --configuration=test/Unit/phpunit.xml --coverage-text
+	vendor/bin/phpunit --configuration=tests/phpunit.xml --coverage-text
 
 cs: vendor
 	vendor/bin/php-cs-fixer fix --config=.php_cs --diff --verbose
@@ -12,7 +12,7 @@ infection: vendor
 	vendor/bin/infection --min-covered-msi=80 --min-msi=80
 
 test: vendor
-	vendor/phpunit/phpunit/phpunit tests
+	vendor/phpunit/phpunit/phpunit --configuration=tests/phpunit.xml tests
 
 #vendor/bin/phpunit --configuration=test/Unit/phpunit.xml
 #vendor/bin/phpunit --configuration=test/Integration/phpunit.xml
