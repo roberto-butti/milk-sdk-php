@@ -44,6 +44,12 @@ To get XYZ Spaces by everybody (not only your own XYZ Spaces):
 /** XyzSpace $xyzSpace */
 $xyzSpace = new XyzSpace(XyzConfig::getInstance());
 $s = $xyzSpace->ownerAll()->get();
-````
+```
 
+The get statistics from XYZ Space:
+
+```php
+$xyzSpace = new XyzSpace(XyzConfig::getInstance());
+$o1 = $xyzSpace->spaceId($spaceId)->statistics()->get();
+```
 

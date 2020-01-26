@@ -26,6 +26,10 @@ class XyzSpaceTest extends TestCase
         $o = $xyzSpace->includeRights()->spaceId("bB6WZ2Sb")->get();
         $this->assertEquals("bB6WZ2Sb", $o->id, "Testing List 1 space");
 
+        $xyzSpace->reset();
+        $o1 = $xyzSpace->spaceId("bB6WZ2Sb")->statistics()->get();
+        $this->assertEquals("StatisticsResponse", $o1->type, "Testing List Feature Statistics");
+
         $o = $xyzSpace->spaceId("aa")->get();
         $this->assertEquals("ErrorResponse", $o->type, "Testing Space not found, Error response");
 

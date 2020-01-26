@@ -17,7 +17,14 @@ class XyzClient
     private XyzConfig $c;
     protected $uri;
     protected $contentType;
+    protected $spaceId = "";
     private $method;
+
+    const API_SPACES_FEATURES = "/hub/spaces/{spaceId}/features";
+    const API_SPACES_ITERATE = "/hub/spaces/{spaceId}/iterate";
+    const API_SPACES_STATISTICS = "/hub/spaces/{spaceId}/statistics";
+    const API_SPACES = "/hub/spaces";
+
 
 
     public function __construct(XyzConfig $c)
@@ -96,6 +103,14 @@ class XyzClient
             file_put_contents($file_cache, $content);
         }
         return json_decode($content);
+    }
+
+    protected function switchUrl($url)
+    {
+        $this->uri = $url;
+        if ($this->spaceId != "") {
+            $this->uri = str_replace("{spaceId}", $this->spaceId, $this->uri);
+        }
     }
 
 

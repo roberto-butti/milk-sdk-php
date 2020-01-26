@@ -12,8 +12,5 @@ class XyzSpaceFeatureTest extends TestCase
         $o = $xyzSpaceFeature->spaceId("bB6WZ2Sb")->iterate()->getResponse();
         $this->assertEquals(200, $o->getStatusCode(), "Testing List Feature");
 
-        $xyzSpaceFeature->reset();
-        $o1 = $xyzSpaceFeature->spaceId("bB6WZ2Sb")->statistics()->get();
-        $this->assertEquals("StatisticsResponse", $o1->type, "Testing List Feature Statistics");
     }
 }

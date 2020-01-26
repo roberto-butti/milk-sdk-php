@@ -1,7 +1,7 @@
 <?php
 require __DIR__."/../vendor/autoload.php";
 
-use \Rbit\Milk\Xyz\XyzSpaceFeature;
+use \Rbit\Milk\Xyz\XyzSpace;
 use \Rbit\Milk\Xyz\XyzConfig;
 
 function print_row($item, $key)
@@ -12,11 +12,10 @@ function print_row($item, $key)
 
 $spaceId = readline("Space ID : ");
 /** XyzSpace $xyzSpace */
-$xyzSpaceFeature = new XyzSpaceFeature(XyzConfig::getInstance());
+$xyzSpace = new XyzSpace(XyzConfig::getInstance());
 
-$xyzSpaceFeature->reset();
-
-$o1 = $xyzSpaceFeature->spaceId($spaceId)->statistics()->get();
+$xyzSpace->reset();
+$o1 = $xyzSpace->spaceId($spaceId)->statistics()->get();
 
 
 echo "The Spaces has {$o1->count->value} features ".PHP_EOL;

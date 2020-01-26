@@ -11,8 +11,7 @@ use GuzzleHttp\Exception\RequestException;
  */
 class XyzSpace extends XyzClient
 {
-    private $spaceId = "";
-    const API_SPACES = "/hub/spaces";
+
 
     public function __construct(XyzConfig $c)
     {
@@ -36,6 +35,13 @@ class XyzSpace extends XyzClient
     {
         $this->spaceId = $id;
         $this->uri = self::API_SPACES . "/" . $id;
+        return $this;
+    }
+
+    public function statistics(): XyzSpace
+    {
+        $this->switchUrl(self::API_SPACES_STATISTICS);
+        $this->contentType= "application/json";
         return $this;
     }
 

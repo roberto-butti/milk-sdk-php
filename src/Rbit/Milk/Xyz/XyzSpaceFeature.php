@@ -12,10 +12,7 @@ use GuzzleHttp\Exception\RequestException;
 class XyzSpaceFeature extends XyzClient
 {
 
-    const API_SPACES_FEATURES = "/hub/spaces/{spaceId}/features";
-    const API_SPACES_ITERATE = "/hub/spaces/{spaceId}/iterate";
-    const API_SPACES_STATISTICS = "/hub/spaces/{spaceId}/statistics";
-    private string $spaceId ="";
+
     private string $featureId ="";
 
 
@@ -48,20 +45,9 @@ class XyzSpaceFeature extends XyzClient
         return $this;
     }
 
-    private function switchUrl($url)
-    {
-        $this->uri = $url;
-        if ($this->spaceId != "") {
-            $this->uri = str_replace("{spaceId}", $this->spaceId, $this->uri);
-        }
-    }
 
-    public function statistics(): XyzSpaceFeature
-    {
-        $this->switchUrl(self::API_SPACES_STATISTICS);
-        $this->contentType= "application/json";
-        return $this;
-    }
+
+
 
     public function iterate(): XyzSpaceFeature
     {
