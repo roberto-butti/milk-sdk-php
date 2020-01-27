@@ -1,8 +1,15 @@
 <?php
-require __DIR__."/../vendor/autoload.php";
+
+/**
+ * /spaces/{spaceId}
+ * Returns the space definition
+ * https://xyz.api.here.com/hub/static/swagger/#/Read%20Spaces/getSpace
+ */
+require __DIR__ . "/../vendor/autoload.php";
 
 use \Rbit\Milk\Xyz\XyzSpace;
 use \Rbit\Milk\Xyz\XyzConfig;
+use \Rbit\Milk\Utils\Obj;
 
 
 
@@ -13,5 +20,4 @@ $xyzSpace = new XyzSpace(XyzConfig::getInstance());
 $xyzSpace->reset();
 $o1 = $xyzSpace->spaceId($spaceId)->get();
 
-var_dump($o1);
-
+Obj::echo($o1);
