@@ -1,6 +1,4 @@
 <?php
-
-
 namespace Rbit\Milk\Xyz;
 
 class XyzConfig

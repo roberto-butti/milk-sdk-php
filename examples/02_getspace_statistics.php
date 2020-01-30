@@ -10,11 +10,8 @@ function print_row($item, $key)
 }
 
 $spaceId = readline("Space ID : ");
-/** XyzConfig $config */
-$config = XyzConfig::getInstance();
-/** XyzSpace $xyzSpace */
-$xyzSpace = XyzSpace::config($config);
-$o1 = $xyzSpace->spaceId($spaceId)->statistics()->get();
+
+$o1 = XyzSpace::instance()->spaceId($spaceId)->statistics()->get();
 
 
 echo "The Spaces has {$o1->count->value} features " . PHP_EOL;

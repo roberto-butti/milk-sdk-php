@@ -33,23 +33,18 @@ Create your .env file
 ### Spaces
 To get your XYZ Spaces:
 ```php
-/** XyzSpace $xyzSpace */
-$xyzSpace = new XyzSpace(XyzConfig::getInstance());
-$s = $xyzSpace->get();
+$s = XyzSpace::instance()->get();
 ```
 
 To get XYZ Spaces by everybody (not only your own XYZ Spaces):
 ```php
-/** XyzSpace $xyzSpace */
-$xyzSpace = new XyzSpace(XyzConfig::getInstance());
-$s = $xyzSpace->ownerAll()->get();
+$s =  XyzSpace::instance()->ownerAll()->get();
 ```
 
 ### Statistics
 The get statistics from XYZ Space:
 ```php
-$xyzSpace = new XyzSpace(XyzConfig::getInstance());
-$o1 = $xyzSpace->spaceId($spaceId)->statistics()->get();
+$statistics =  XyzSpace::instance()->spaceId($spaceId)->statistics()->get();
 ```
 
 ### Features

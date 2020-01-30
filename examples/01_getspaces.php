@@ -8,13 +8,13 @@ function print_row($item, $key)
 {
     echo $key+1 . " ". $item->id . " ". $item->owner . " " . $item->title."\n";
 }
-/** XyzConfig $config */
-$config = XyzConfig::getInstance();
-/** XyzSpace $xyzSpace */
-$xyzSpace = XyzSpace::config($config);
-$s = $xyzSpace->get();
+
+$s = XyzSpace::instance()->get();
 array_walk($s, 'print_row');
 
-$xyzSpace->reset();
-$s = $xyzSpace->ownerAll()->get();
+$s =  XyzSpace::instance()->ownerAll()->get();
+array_walk($s, 'print_row');
+
+
+$s = XyzSpace::instance()->get();
 array_walk($s, 'print_row');
