@@ -14,7 +14,7 @@ use Kevinrob\GuzzleCache\Storage\FlysystemStorage;
 
 class XyzClient
 {
-    private XyzConfig $c;
+    protected XyzConfig $c;
     protected $uri;
     protected $contentType;
     protected $spaceId = "";
@@ -26,9 +26,14 @@ class XyzClient
     const API_SPACES = "/hub/spaces";
     const API_SPACES_DETAIL = "/hub/spaces/{spaceId}";
 
-    public function __construct(XyzConfig $c)
+    protected const API_TYPE_SPACES = "SPACES";
+    protected const API_TYPE_FEATURES = "FEATURES";
+    protected const API_TYPE_STATISTICS = "STATISTICS";
+    protected string $apiType;
+
+
+    public function __construct()
     {
-        $this->c = $c;
         $this->reset();
     }
 
@@ -37,12 +42,9 @@ class XyzClient
         $this->uri = "";
         $this->contentType = "application/json";
         $this->method = "GET";
+        $this->apiType = self::API_TYPE_SPACES;
     }
 
-    public function setToken(string $token)
-    {
-        $this->c->getCredentials()->setAccessToken($token);
-    }
     /**
      * @param string $method
      * @return $this
@@ -148,5 +150,9 @@ class XyzClient
         $this->switchUrl(self::API_SPACES_DETAIL);
         $this->uri = str_replace("{spaceId}", $this->spaceId, $this->uri);
         return $this;
+    }
+
+    protected function getConfig():XyzConfig {
+        return $this->c;
     }
 }

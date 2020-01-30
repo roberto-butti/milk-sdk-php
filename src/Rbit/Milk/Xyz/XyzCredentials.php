@@ -20,6 +20,13 @@ class XyzCredentials
         $this->token = $token;
     }
 
+    public static function token($token): XyzCredentials {
+        $credentials = new XyzCredentials($token);
+        return $credentials;
+    }
+
+
+
     public static function __set_state(array $state)
     {
         return new self(

@@ -3,21 +3,46 @@
 
 namespace Rbit\Milk\Xyz;
 
-
 class XyzConfig
 {
     private static $instance = null;
 
     private XyzCredentials $credentials;
-    private string $hostname;
+    private string $hostname = self::HOST_PROD;
+    private string $environment = self::ENV_PROD;
+
+    private const ENV_PROD = "PRD";
+    private const ENV_STAGE = "STAGE";
+    private const ENV_NONE = "";
+    private const HOST_PROD = "https://xyz.api.here.com";
+    private const HOST_STAGE = "https://xyz.cit.api.here.com";
+    private const HOST_NONE = "";
+
+
 
 
     /**
+     * Return the hostname of Xyz API HUB
      * @return string
      */
     public function getHostname(): string
     {
         return $this->hostname;
+    }
+
+    public function setEnvironment($environemnt = self::ENV_PROD):bool
+    {
+        $retVal = false;
+        if ($this->environment === self::ENV_PROD) {
+            $this->hostname = self::HOST_PROD;
+            $retVal = true;
+        } elseif ($this->environment === self::ENV_STAGE) {
+            $this->hostname = self::HOST_STAGE;
+            $retVal = true;
+        } else {
+            $this->hostname = self::HOST_NONE;
+        }
+        return $retVal;
     }
 
     /**
@@ -28,30 +53,28 @@ class XyzConfig
         return $this->credentials;
     }
 
-    private function __construct()
+    private function __construct($env = self::ENV_PROD)
     {
-        $this->hostname = "https://xyz.api.here.com";
         /** @var Dotenv\Dotenv $dotenv */
         $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__."/../../../../");
         $dotenv->load();
         $xyzToken =  getenv('XYZ_ACCESS_TOKEN');
-        $xyzCryptoSecret =  getenv('XYZ_CRYPTO_SECRET');
-        $xyzEncryptedToken =  getenv('XYZ_ENCRIPTED_ACCESS_TOKEN');
-        $credential = new \Rbit\Milk\Xyz\XyzCredentials($xyzToken);
-
-        $this->credentials = $credential;
+        // Setting things:
+        $this->setEnvironment($env);
+        $this->credentials = XyzCredentials::token($xyzToken);
     }
 
-    public static function getInstance()
+    public static function getInstance($env = self::HOST_PROD)
     {
-        if (self::$instance == null)
-        {
-            self::$instance = new XyzConfig();
+        if (self::$instance == null) {
+            self::$instance = new XyzConfig($env);
         }
-
         return self::$instance;
     }
 
-
-
+    public function setToken(string $token):bool
+    {
+        $this->credentials->setAccessToken($token);
+        return true;
+    }
 }

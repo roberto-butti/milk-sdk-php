@@ -8,8 +8,10 @@ function print_row($item, $key)
 {
     echo $key+1 . " ". $item->id . " ". $item->owner . " " . $item->title."\n";
 }
+/** XyzConfig $config */
+$config = XyzConfig::getInstance();
 /** XyzSpace $xyzSpace */
-$xyzSpace = new XyzSpace(XyzConfig::getInstance());
+$xyzSpace = XyzSpace::config($config);
 $s = $xyzSpace->get();
 array_walk($s, 'print_row');
 

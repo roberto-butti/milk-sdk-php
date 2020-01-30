@@ -11,16 +11,41 @@ use GuzzleHttp\Exception\RequestException;
  */
 class XyzSpace extends XyzClient
 {
-    public function __construct(XyzConfig $c)
+
+
+    private bool $includeRights = false;
+
+
+    public function __construct()
     {
-        parent::__construct($c);
+        //parent::__construct($c);
         $this->reset();
+    }
+
+    public static function config(XyzConfig $c):XyzSpace {
+        $space = new XyzSpace();
+        $space->c = $c;
+        return $space;
+
+
+    }
+
+    public static function setToken(string $token):XyzSpace {
+
+        $space = XyzSpace::config(XyzConfig::getInstance());
+        var_dump($space->getConfig());
+        $space->c->setToken($token);
+
+        return $space;
     }
 
     public function reset()
     {
         parent::reset();
         $this->uri = self::API_SPACES;
+        $this->apiType = self::API_TYPE_SPACES;
+        $this->includeRights = false;
+
         $this->spaceId = "";
     }
 
