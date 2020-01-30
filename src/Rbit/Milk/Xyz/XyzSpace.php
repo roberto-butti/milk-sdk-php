@@ -18,7 +18,6 @@ class XyzSpace extends XyzClient
 
     public function __construct()
     {
-        //parent::__construct($c);
         $this->reset();
     }
 
@@ -26,32 +25,25 @@ class XyzSpace extends XyzClient
         $space = new XyzSpace();
         $space->c = $c;
         return $space;
-
-
     }
 
     public static function setToken(string $token):XyzSpace {
-
         $space = XyzSpace::config(XyzConfig::getInstance());
-        var_dump($space->getConfig());
         $space->c->setToken($token);
-
         return $space;
     }
 
     public function reset()
     {
         parent::reset();
-        $this->uri = self::API_SPACES;
-        $this->apiType = self::API_TYPE_SPACES;
-        $this->includeRights = false;
 
+        $this->includeRights = false;
         $this->spaceId = "";
     }
 
     public function statistics(): XyzSpace
     {
-        $this->switchUrl(self::API_SPACES_STATISTICS);
+        $this->setType(self::API_TYPE_STATISTICS);
         $this->contentType= "application/json";
         return $this;
     }

@@ -20,15 +20,26 @@ class XyzClient
     protected $spaceId = "";
     private $method;
 
-    const API_SPACES_FEATURES = "/hub/spaces/{spaceId}/features";
-    const API_SPACES_ITERATE = "/hub/spaces/{spaceId}/iterate";
-    const API_SPACES_STATISTICS = "/hub/spaces/{spaceId}/statistics";
-    const API_SPACES = "/hub/spaces";
-    const API_SPACES_DETAIL = "/hub/spaces/{spaceId}";
+    const API_PATH_SPACES = "/hub/spaces";
+    const API_PATH_FEATURES = "/hub/spaces/{spaceId}/features";
+    const API_PATH_STATISTICS = "/hub/spaces/{spaceId}/statistics";
+    const API_PATH_ITERATE = "/hub/spaces/{spaceId}/iterate";
+    const API_PATH_SPACEDETAIL = "/hub/spaces/{spaceId}";
 
     protected const API_TYPE_SPACES = "SPACES";
     protected const API_TYPE_FEATURES = "FEATURES";
     protected const API_TYPE_STATISTICS = "STATISTICS";
+    protected const API_TYPE_ITERATE = "ITERATE";
+    protected const API_TYPE_SPACEDETAIL = "SPACEDETAIL";
+
+    protected $apiHostPaths = [
+        self::API_TYPE_SPACES => self::API_PATH_SPACES,
+        self::API_TYPE_FEATURES => self::API_PATH_FEATURES,
+        self::API_TYPE_STATISTICS => self::API_PATH_STATISTICS,
+        self::API_TYPE_ITERATE => self::API_PATH_ITERATE,
+        self::API_TYPE_SPACEDETAIL => self::API_PATH_SPACEDETAIL
+    ];
+
     protected string $apiType;
 
 
@@ -43,6 +54,12 @@ class XyzClient
         $this->contentType = "application/json";
         $this->method = "GET";
         $this->apiType = self::API_TYPE_SPACES;
+    }
+
+    protected function setType($apiType)
+    {
+        $this->apiType = $apiType;
+        $this->uri = $this->apiHostPaths[$apiType];
     }
 
     /**
@@ -103,7 +120,7 @@ class XyzClient
      */
     public function get()
     {
-        $cache_tag = md5($this->uri . $this->contentType . $this->method);
+        $cache_tag = md5($this->getUrl() . $this->contentType . $this->method);
         $file_cache = "./cache/".$cache_tag;
         if (file_exists($file_cache)) {
             $content = file_get_contents($file_cache);
@@ -114,19 +131,26 @@ class XyzClient
         return json_decode($content);
     }
 
-    protected function switchUrl($url)
+    /**
+     * Return the URL of the API, replacing the placeholder with real values.
+     * For example if spaceId is 12345 the Url for Space statistics is /spaces/12345/statistics
+     *
+     * @return string
+     */
+    protected function getUrl():string
     {
-        $this->uri = $url;
+        $retUrl = self::API_PATH_SPACES;
         if ($this->spaceId != "") {
-            $this->uri = str_replace("{spaceId}", $this->spaceId, $this->uri);
+            $retUrl = str_replace("{spaceId}", $this->spaceId, $this->uri);
         }
+        return $retUrl;
     }
 
 
     public function call($uri, $contentType= 'application/json', $method)
     {
         $client = new Client();
-        $res = $client->request($method, $this->c->getHostname() . $uri, [
+        $res = $client->request($method, $this->c->getHostname() . $this->getUrl(), [
             //'debug' => true,
             'headers' => [
                 'User-Agent' => 'milk-sdk-php/0.1.0',
@@ -147,12 +171,12 @@ class XyzClient
     public function spaceId(string $id): XyzSpace
     {
         $this->spaceId = $id;
-        $this->switchUrl(self::API_SPACES_DETAIL);
-        $this->uri = str_replace("{spaceId}", $this->spaceId, $this->uri);
+        $this->setType(self::API_TYPE_SPACEDETAIL);
         return $this;
     }
 
-    protected function getConfig():XyzConfig {
+    protected function getConfig():XyzConfig
+    {
         return $this->c;
     }
 }
