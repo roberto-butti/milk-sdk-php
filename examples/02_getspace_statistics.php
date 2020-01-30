@@ -9,12 +9,11 @@ function print_row($item, $key)
     echo $key + 1 . " " . $item->id . " " . $item->owner . " " . $item->title . "\n";
 }
 
-
 $spaceId = readline("Space ID : ");
+/** XyzConfig $config */
+$config = XyzConfig::getInstance();
 /** XyzSpace $xyzSpace */
-$xyzSpace = new XyzSpace(XyzConfig::getInstance());
-
-$xyzSpace->reset();
+$xyzSpace = XyzSpace::config($config);
 $o1 = $xyzSpace->spaceId($spaceId)->statistics()->get();
 
 
