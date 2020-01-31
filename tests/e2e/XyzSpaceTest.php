@@ -6,21 +6,35 @@ use \Rbit\Milk\Xyz\XyzConfig;
 
 class XyzSpaceTest extends TestCase
 {
-    public function testGetListSpaces()
+    public function testGetListSpacesByConfig()
     {
         $conf = XyzConfig::getInstance();
         $this->assertIsArray(XyzSpace::config($conf)->get(), "Testing List spaces as array");
         $this->assertIsArray(XyzSpace::config($conf)->includeRights()->get(), "Testing List spaces with Rights as array");
         $this->assertIsArray(XyzSpace::config($conf)->ownerAll()->get(), "Testing List spaces with Owner all");
+    }
 
-        ;
-        $this->assertIsArray(XyzSpace::setToken(getenv('XYZ_ACCESS_TOKEN'))->get(), "Testing List spaces as array, with Token");
+    public function testGetListSpacesByInstance()
+    {
+        $this->assertIsArray(XyzSpace::instance()->get(), "Testing List spaces as array");
+        $this->assertIsArray(XyzSpace::instance()->includeRights()->get(), "Testing List spaces with Rights as array");
+        $this->assertIsArray(XyzSpace::instance()->ownerAll()->get(), "Testing List spaces with Owner all");
+    }
 
-
+    public function testGetListSpacesByToken()
+    {
+        $this->assertIsArray(XyzSpace::setToken(getenv('XYZ_ACCESS_TOKEN'))->get(), "Testing List spaces as array");
+        $this->assertIsArray(XyzSpace::setToken(getenv('XYZ_ACCESS_TOKEN'))->includeRights()->get(), "Testing List spaces with Rights as array");
+        $this->assertIsArray(XyzSpace::setToken(getenv('XYZ_ACCESS_TOKEN'))->ownerAll()->get(), "Testing List spaces with Owner all");
     }
 
     public function testGetOneSpace()
     {
+        $conf = XyzConfig::getInstance();
+        $spaceIdTest = "bB6WZ2Sb";
+        $space = XyzSpace::config($conf)->spaceId($spaceIdTest)->get();
+        $this->assertEquals($spaceIdTest, $space->id, "Testing List 1 space, with space id: ". $spaceIdTest);
+
         /*
         $conf = XyzConfig::getInstance();
         $xyzSpace = new XyzSpace();
