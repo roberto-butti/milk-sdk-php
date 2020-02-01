@@ -44,7 +44,7 @@ $s =  XyzSpace::instance()->ownerAll()->get();
 ### Statistics
 The get statistics from XYZ Space:
 ```php
-$statistics =  XyzSpace::instance()->spaceId($spaceId)->statistics()->get();
+$statistics =  XyzSpaceStatistics::instance()->spaceId($spaceId)->get();
 ```
 
 ### Features
