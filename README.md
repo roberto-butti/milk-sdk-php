@@ -56,4 +56,10 @@ $xyzSpaceFeature = new XyzSpaceFeature(XyzConfig::getInstance());
 $result = $xyzSpaceFeature->iterate($spaceId)->get();
 ```
 
+## Useful reference
 
+ReDoc API documentation¶
+https://xyz.api.here.com/hub/static/redoc/
+
+Open API documentation¶
+https://xyz.api.here.com/hub/static/swagger/
