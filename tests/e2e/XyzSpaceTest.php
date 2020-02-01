@@ -1,8 +1,8 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use \Rbit\Milk\Xyz\XyzSpace;
-use \Rbit\Milk\Xyz\XyzConfig;
+use \Rbit\Milk\Xyz\Space\XyzSpace;
+use \Rbit\Milk\Xyz\Common\XyzConfig;
 
 class XyzSpaceTest extends TestCase
 {
@@ -60,4 +60,16 @@ class XyzSpaceTest extends TestCase
         $this->assertEquals(401, $o->getStatusCode(), "Testing Space no permission wrong token, 401 http status");
         */
     }
+
+    public function testGetStatistics()
+    {
+        $conf = XyzConfig::getInstance();
+        $spaceIdTest = "bB6WZ2Sb";
+        $space = XyzSpace::config($conf);
+        $o1 = $space->spaceId($spaceIdTest)->statistics()->get();
+        $this->assertEquals("StatisticsResponse", $o1->type, "Testing List Feature Statistics");
+
+
+    }
+
 }

@@ -1,9 +1,11 @@
 <?php
 
 
-namespace Rbit\Milk\Xyz;
+namespace Rbit\Milk\Xyz\Space;
 
 use GuzzleHttp\Exception\RequestException;
+use Rbit\Milk\Xyz\Common\XyzClient;
+use Rbit\Milk\Xyz\Common\XyzConfig;
 
 /**
  * Class XyzSpace

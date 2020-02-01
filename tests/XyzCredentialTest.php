@@ -1,6 +1,7 @@
 <?php
-use Rbit\Milk\Main;
+
 use PHPUnit\Framework\TestCase;
+use Rbit\Milk\Xyz\Common\XyzCredentials;
 
 class XyzCredentialTest extends TestCase
 {
@@ -20,18 +21,12 @@ class XyzCredentialTest extends TestCase
 
         $dotenv = Dotenv\Dotenv::createImmutable(__DIR__."/../");
         $dotenv->load();
-
         $xyzToken =  getenv('XYZ_ACCESS_TOKEN');
-        $xyzCryptoSecret =  getenv('XYZ_CRYPTO_SECRET');
-        $xyzEncryptedToken =  getenv('XYZ_ENCRIPTED_ACCESS_TOKEN');
 
 
-        $credential = new \Rbit\Milk\Xyz\XyzCredentials($xyzToken);
+        $credential = new XyzCredentials($xyzToken);
         $this->assertEquals($xyzToken, $credential->getAccessToken(), "Checking Credential Access token");
 
 
-        //print_r($xyzSpace->httpGet()->includeRights()->get());
-        //$credential = new \Rbit\Milk\Xyz\XyzCredentials("", $xyzCryptoSecret,  $xyzEncryptedToken);
-        //$this->assertEquals($xyzToken, $credential->getAccessToken());
     }
 }
