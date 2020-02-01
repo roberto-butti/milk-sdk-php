@@ -1,8 +1,8 @@
 <?php
 require __DIR__."/../vendor/autoload.php";
 
-use \Rbit\Milk\Xyz\XyzSpace;
-use \Rbit\Milk\Xyz\XyzConfig;
+use \Rbit\Milk\Xyz\Space\XyzSpace;
+use \Rbit\Milk\Xyz\Common\XyzConfig;
 
 function print_row($item, $key)
 {

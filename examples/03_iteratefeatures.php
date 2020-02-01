@@ -8,8 +8,8 @@
  */
 require __DIR__ . "/../vendor/autoload.php";
 
-use \Rbit\Milk\Xyz\XyzSpaceFeature;
-use \Rbit\Milk\Xyz\XyzConfig;
+use \Rbit\Milk\Xyz\Space\XyzSpaceFeature;
+use \Rbit\Milk\Xyz\Common\XyzConfig;
 use \Rbit\Milk\Utils\Obj;
 
 function print_row($item, $key)
@@ -21,7 +21,7 @@ function print_row($item, $key)
 
 $spaceId = readline("Space ID : ");
 /** XyzSpaceFeature $xyzSpaceFeature */
-$xyzSpaceFeature = new XyzSpaceFeature(XyzConfig::getInstance());
+$xyzSpaceFeature = XyzSpaceFeature::instance();
 $result = $xyzSpaceFeature->iterate($spaceId)->get();
 array_walk($result->features, 'print_row');
 echo PHP_EOL;
