@@ -12,7 +12,7 @@ use League\Flysystem\Adapter\Local;
 use Kevinrob\GuzzleCache\Strategy\PrivateCacheStrategy;
 use Kevinrob\GuzzleCache\Storage\FlysystemStorage;
 
-class XyzClient
+abstract class XyzClient
 {
     protected XyzConfig $c;
     protected $uri;
@@ -42,6 +42,12 @@ class XyzClient
 
     protected string $apiType;
 
+    /**
+     * Return the query string based on value setted by the user
+     *
+     * @return string
+     */
+    abstract protected function queryString(): string;
 
     public function __construct()
     {
@@ -91,13 +97,14 @@ class XyzClient
     }
 
     /**
+     * @param $url, the URL (or the path) to add the new $name parameter with the value $value
      * @param $name
      * @param $value
      */
-    protected function addQueryParam($name, $value)
+    protected function addQueryParam(string $url, string $name, $value): string
     {
-        //$this->uri = $this->uri . "?" . $name . "=" .$value;
-        $this->uri .= (parse_url($this->uri, PHP_URL_QUERY) ? '&' : '?') . urlencode($name) . '=' . urlencode($value);
+        $url .= (parse_url($url, PHP_URL_QUERY) ? '&' : '?') . urlencode($name) . '=' . urlencode($value);
+        return $url;
     }
 
     /**
@@ -106,7 +113,7 @@ class XyzClient
     public function getResponse()
     {
         try {
-            $res = $this->call($this->uri, $this->contentType, $this->method);
+            $res = $this->call($this->getUrl(), $this->contentType, $this->method);
         } catch (RequestException $e) {
             if ($e->hasResponse()) {
                 $res = $e->getResponse();
@@ -120,6 +127,7 @@ class XyzClient
      */
     public function get()
     {
+        //echo $this->getUrl() . PHP_EOL;
         $cache_tag = md5($this->getUrl() . $this->contentType . $this->method);
         $file_cache = "./cache/".$cache_tag;
         if (file_exists($file_cache)) {
@@ -142,6 +150,10 @@ class XyzClient
         $retUrl = self::API_PATH_SPACES;
         if ($this->spaceId != "") {
             $retUrl = str_replace("{spaceId}", $this->spaceId, $this->uri);
+        }
+        $queryParams = $this->queryString();
+        if ($queryParams !== "") {
+            $retUrl = $retUrl . $queryParams;
         }
         return $retUrl;
     }

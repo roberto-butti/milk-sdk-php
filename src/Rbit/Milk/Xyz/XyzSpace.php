@@ -13,7 +13,14 @@ class XyzSpace extends XyzClient
 {
 
 
-    private bool $includeRights = false;
+    private bool $paramIncludeRights = false;
+    private string $paramOwner = "";
+    private string $paramOwnerId = "";
+
+    public const PARAM_OWNER_ME = "me";
+    public const PARAM_OWNER_ID = "someother";
+    public const PARAM_OWNER_OTHERS = "others";
+    public const PARAM_OWNER_ALL = "*";
 
 
     public function __construct()
@@ -42,7 +49,9 @@ class XyzSpace extends XyzClient
     {
         parent::reset();
 
-        $this->includeRights = false;
+        $this->paramIncludeRights = false;
+        $this->paramOwner = "";
+        $this->paramOwnerId = "";
         $this->spaceId = "";
     }
 
@@ -59,7 +68,7 @@ class XyzSpace extends XyzClient
      */
     public function includeRights(): XyzSpace
     {
-        $this->addQueryParam("includeRights", "true");
+        $this->includeRights = true;
         return $this;
     }
 
@@ -67,9 +76,15 @@ class XyzSpace extends XyzClient
      * Define the owner(s) of spaces to be shown in the response.
      * @return $this
      */
-    public function owner($owner = "me"): XyzSpace
+    public function owner($owner = self::PARAM_OWNER_ME, $ownerId = ""): XyzSpace
     {
-        $this->addQueryParam("owner", $owner);
+        if ($owner === self::PARAM_OWNER_ID) {
+            $this->paramOwner = $owner;
+            $this->paramOwnerId = $ownerId;
+        } else {
+            $this->paramOwner = $owner;
+            $this->paramOwnerId = "";
+        }
         return $this;
     }
 
@@ -79,7 +94,7 @@ class XyzSpace extends XyzClient
      */
     public function ownerMe(): XyzSpace
     {
-        return $this->owner("owner");
+        return $this->owner(self::PARAM_OWNER_ME);
     }
 
     /**
@@ -88,7 +103,7 @@ class XyzSpace extends XyzClient
      */
     public function ownerSomeOther($ownerId): XyzSpace
     {
-        return $this->owner($ownerId);
+        return $this->owner(self::PARAM_OWNER_ID,  $ownerId);
     }
 
     /**
@@ -96,7 +111,7 @@ class XyzSpace extends XyzClient
      */
     public function ownerOthers(): XyzSpace
     {
-        return $this->owner("others");
+        return $this->owner(self::PARAM_OWNER_OTHERS);
     }
 
     /**
@@ -105,6 +120,27 @@ class XyzSpace extends XyzClient
      */
     public function ownerAll(): XyzSpace
     {
-        return $this->owner("*");
+        return $this->owner(self::PARAM_OWNER_ALL);
+    }
+
+
+    protected function queryString(): string
+    {
+        $retString = "";
+
+        if ($this->paramIncludeRights) {
+            $retString = $this->addQueryParam($retString, "includeRights", "true");
+        }
+
+        if ($this->paramOwner != "") {
+            if ($this->paramOwner !== self::PARAM_OWNER_ID) {
+                $retString = $this->addQueryParam($retString, "owner", $this->paramOwner);
+            } else {
+                $retString = $this->addQueryParam($retString, "owner", $this->paramOwnerId);
+            }
+        }
+
+
+        return $retString;
     }
 }

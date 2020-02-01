@@ -15,6 +15,8 @@ array_walk($s, 'print_row');
 $s =  XyzSpace::instance()->ownerAll()->get();
 array_walk($s, 'print_row');
 
+$s =  XyzSpace::instance()->ownerOthers()->get();
+array_walk($s, 'print_row');
 
 $s = XyzSpace::instance()->get();
 array_walk($s, 'print_row');
