@@ -35,31 +35,23 @@ class XyzSpaceTest extends TestCase
         $spaceIdTest = "bB6WZ2Sb";
         $space = XyzSpace::config($conf)->spaceId($spaceIdTest)->get();
         $this->assertEquals($spaceIdTest, $space->id, "Testing List 1 space, with space id: ". $spaceIdTest);
+    }
 
-        /*
-        $conf = XyzConfig::getInstance();
-        $xyzSpace = new XyzSpace();
-
-        $o = $xyzSpace->includeRights()->spaceId("bB6WZ2Sb")->get();
-        $this->assertEquals("bB6WZ2Sb", $o->id, "Testing List 1 space");
-
-        $xyzSpace->reset();
-        $o1 = $xyzSpace->spaceId("bB6WZ2Sb")->statistics()->get();
-        $this->assertEquals("StatisticsResponse", $o1->type, "Testing List Feature Statistics");
-
-        $o = $xyzSpace->spaceId("aa")->get();
+    public function testGetSpaceNotFound() {
+        $o = XyzSpace::instance()->spaceId("aa")->get();
         $this->assertEquals("ErrorResponse", $o->type, "Testing Space not found, Error response");
 
 
-        $o = $xyzSpace->spaceId("aa")->getResponse();
+        $o = XyzSpace::instance()->spaceId("aa")->getResponse();
         $this->assertEquals(404, $o->getStatusCode(), "Testing Space not found, 404 http status");
+    }
 
-
+    public function testGetSpaceWrongToken() {
+        $xyzSpace = XyzSpace::instance();
         $xyzSpace->setToken("asasasasasa");
-        $xyzSpace->reset();
         $o = $xyzSpace->spaceId("aa")->getResponse();
         $this->assertEquals(401, $o->getStatusCode(), "Testing Space no permission wrong token, 401 http status");
-        */
+
     }
 
     public function testGetStatistics()
@@ -69,8 +61,6 @@ class XyzSpaceTest extends TestCase
         $spaceStatistics = XyzSpaceStatistics::config($conf);
         $o1 = $spaceStatistics->spaceId($spaceIdTest)->get();
         $this->assertEquals("StatisticsResponse", $o1->type, "Testing List Feature Statistics");
-
-
     }
 
 }
