@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 use \Rbit\Milk\Xyz\Space\XyzSpace;
+use \Rbit\Milk\Xyz\Space\XyzSpaceStatistics;
 use \Rbit\Milk\Xyz\Common\XyzConfig;
 
 class XyzSpaceTest extends TestCase
@@ -65,8 +66,8 @@ class XyzSpaceTest extends TestCase
     {
         $conf = XyzConfig::getInstance();
         $spaceIdTest = "bB6WZ2Sb";
-        $space = XyzSpace::config($conf);
-        $o1 = $space->spaceId($spaceIdTest)->statistics()->get();
+        $spaceStatistics = XyzSpaceStatistics::config($conf);
+        $o1 = $spaceStatistics->spaceId($spaceIdTest)->get();
         $this->assertEquals("StatisticsResponse", $o1->type, "Testing List Feature Statistics");
 
 

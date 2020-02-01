@@ -57,12 +57,7 @@ class XyzSpace extends XyzClient
         $this->spaceId = "";
     }
 
-    public function statistics(): XyzSpace
-    {
-        $this->setType(self::API_TYPE_STATISTICS);
-        $this->contentType= "application/json";
-        return $this;
-    }
+
 
     /**
      * The access rights for each space are included in the response.
@@ -124,6 +119,19 @@ class XyzSpace extends XyzClient
     {
         return $this->owner(self::PARAM_OWNER_ALL);
     }
+
+        /**
+     * Set the space id in the API
+     * @param string $id
+     * @return $this
+     */
+    public function spaceId(string $id): XyzSpace
+    {
+        $this->spaceId = $id;
+        $this->setType(self::API_TYPE_SPACEDETAIL);
+        return $this;
+    }
+
 
 
     protected function queryString(): string

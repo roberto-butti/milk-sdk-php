@@ -177,17 +177,7 @@ abstract class XyzClient
         return $res;
     }
 
-    /**
-     * Set the space id in the API
-     * @param string $id
-     * @return $this
-     */
-    public function spaceId(string $id): XyzSpace
-    {
-        $this->spaceId = $id;
-        $this->setType(self::API_TYPE_SPACEDETAIL);
-        return $this;
-    }
+
 
     protected function getConfig():XyzConfig
     {

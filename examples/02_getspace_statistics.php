@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . "/../vendor/autoload.php";
 
-use \Rbit\Milk\Xyz\Space\XyzSpace;
+use \Rbit\Milk\Xyz\Space\XyzSpaceStatistics;
 
 function print_row($item, $key)
 {
@@ -10,7 +10,7 @@ function print_row($item, $key)
 
 $spaceId = readline("Space ID : ");
 
-$o1 = XyzSpace::instance()->spaceId($spaceId)->statistics()->get();
+$o1 = XyzSpaceStatistics::instance()->spaceId($spaceId)->get();
 
 
 echo "The Spaces has {$o1->count->value} features " . PHP_EOL;
