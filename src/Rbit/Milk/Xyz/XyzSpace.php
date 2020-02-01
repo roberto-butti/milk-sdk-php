@@ -68,7 +68,7 @@ class XyzSpace extends XyzClient
      */
     public function includeRights(): XyzSpace
     {
-        $this->includeRights = true;
+        $this->paramIncludeRights = true;
         return $this;
     }
 
