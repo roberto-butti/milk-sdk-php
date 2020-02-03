@@ -3,6 +3,7 @@
 
 namespace Rbit\Milk\Xyz\Common;
 
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\HandlerStack;
@@ -19,6 +20,7 @@ abstract class XyzClient
     protected XyzConfig $c;
     protected $uri;
     protected $contentType;
+    protected $requestBody = null;
     protected $spaceId = "";
     private $method;
 
@@ -33,13 +35,15 @@ abstract class XyzClient
     protected const API_TYPE_STATISTICS = "STATISTICS";
     protected const API_TYPE_ITERATE = "ITERATE";
     protected const API_TYPE_SPACEDETAIL = "SPACEDETAIL";
+    protected const API_TYPE_SPACECREATE = "SPACE_CREATE";
 
     protected $apiHostPaths = [
         self::API_TYPE_SPACES => self::API_PATH_SPACES,
         self::API_TYPE_FEATURES => self::API_PATH_FEATURES,
         self::API_TYPE_STATISTICS => self::API_PATH_STATISTICS,
         self::API_TYPE_ITERATE => self::API_PATH_ITERATE,
-        self::API_TYPE_SPACEDETAIL => self::API_PATH_SPACEDETAIL
+        self::API_TYPE_SPACEDETAIL => self::API_PATH_SPACEDETAIL,
+        self::API_TYPE_SPACECREATE => self::API_PATH_SPACES
     ];
 
     protected string $apiType;
@@ -54,6 +58,21 @@ abstract class XyzClient
     public function __construct()
     {
         $this->reset();
+    }
+
+    public function debug(): void {
+        echo "CLIENT : " . PHP_EOL;
+        echo "=========" . PHP_EOL;
+        echo "URL    : " . $this->getUrl(). PHP_EOL;
+        echo "METHOD : " . $this->method. PHP_EOL;
+        echo "SPA ID : " . $this->spaceId. PHP_EOL;
+        echo "C TYPE : " . $this->contentType. PHP_EOL;
+        echo "API    : " . $this->apiType. PHP_EOL;
+        echo "TOKEN  : " . $this->c->getCredentials()->getAccessToken(). PHP_EOL;
+        var_dump($this->requestBody);
+        echo "=========" . PHP_EOL;
+
+
     }
 
     protected function reset()
@@ -114,12 +133,22 @@ abstract class XyzClient
      */
     public function getResponse()
     {
+        $res = false;
         try {
-            $res = $this->call($this->getUrl(), $this->contentType, $this->method);
+            $res = $this->call($this->getUrl(), $this->contentType, $this->method, $this->requestBody);
         } catch (RequestException $e) {
+
+
             if ($e->hasResponse()) {
                 $res = $e->getResponse();
+            } else {
+                $res = (object) [
+                    "message" => $e->getMessage(),
+                    "code" => $e->getCode()
+                ];
             }
+        } catch (Exception $e) {
+            //echo $res->getStatusCode();
         }
         return $res;
     }
@@ -147,7 +176,7 @@ abstract class XyzClient
      *
      * @return string
      */
-    protected function getUrl():string
+    public function getPath():string
     {
         $retUrl = self::API_PATH_SPACES;
         if ($this->spaceId != "") {
@@ -160,18 +189,34 @@ abstract class XyzClient
         return $retUrl;
     }
 
+    public function getUrl():string
+    {
+        return $this->c->getHostname() . $this->getPath();
+    }
 
-    public function call($uri, $contentType= 'application/json', $method)
+
+    public function call($uri, $contentType= 'application/json', $method, $body = null)
     {
         $client = new Client();
-        $res = $client->request($method, $this->c->getHostname() . $this->getUrl(), [
+
+        $headers = [
+            'User-Agent' => 'milk-sdk-php/0.1.0',
+            'Accept'     => $contentType,
+            'Authorization' => "Bearer {$this->c->getCredentials()->getAccessToken()}"
+        ];
+        if ($method === "POST") {
+            $headers['Content-Type'] = "application/json";
+        }
+        $requestOptions=[
             //'debug' => true,
-            'headers' => [
-                'User-Agent' => 'milk-sdk-php/0.1.0',
-                'Accept'     => $contentType,
-                'Authorization' => "Bearer {$this->c->getCredentials()->getAccessToken()}"
-            ]
-        ]);
+            'headers' => $headers
+        ];
+        if ( ! is_null($body) ) {
+            $requestOptions["body"] = $body;
+        }
+
+
+        $res = $client->request($method, $this->getUrl(), $requestOptions);
         //echo $res->getStatusCode();
         //echo $res->getBody();
         return $res;
