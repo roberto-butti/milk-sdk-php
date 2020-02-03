@@ -29,6 +29,7 @@ abstract class XyzClient
     const API_PATH_STATISTICS = "/hub/spaces/{spaceId}/statistics";
     const API_PATH_ITERATE = "/hub/spaces/{spaceId}/iterate";
     const API_PATH_SPACEDETAIL = "/hub/spaces/{spaceId}";
+    const API_PATH_SPACEDELETE = "/hub/spaces/{spaceId}";
 
     protected const API_TYPE_SPACES = "SPACES";
     protected const API_TYPE_FEATURES = "FEATURES";
@@ -36,6 +37,7 @@ abstract class XyzClient
     protected const API_TYPE_ITERATE = "ITERATE";
     protected const API_TYPE_SPACEDETAIL = "SPACEDETAIL";
     protected const API_TYPE_SPACECREATE = "SPACE_CREATE";
+    protected const API_TYPE_SPACEDELETE = "SPACE_DELETE";
 
     protected $apiHostPaths = [
         self::API_TYPE_SPACES => self::API_PATH_SPACES,
@@ -43,7 +45,8 @@ abstract class XyzClient
         self::API_TYPE_STATISTICS => self::API_PATH_STATISTICS,
         self::API_TYPE_ITERATE => self::API_PATH_ITERATE,
         self::API_TYPE_SPACEDETAIL => self::API_PATH_SPACEDETAIL,
-        self::API_TYPE_SPACECREATE => self::API_PATH_SPACES
+        self::API_TYPE_SPACECREATE => self::API_PATH_SPACES,
+        self::API_TYPE_SPACEDELETE => self::API_PATH_SPACEDELETE
     ];
 
     protected string $apiType;
@@ -115,6 +118,15 @@ abstract class XyzClient
     public function httpPost()
     {
         return $this->method("POST");
+    }
+
+    /**
+     * Set the DELETE method
+     * @return $this
+     */
+    public function httpDelete()
+    {
+        return $this->method("DELETE");
     }
 
     /**

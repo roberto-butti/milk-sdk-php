@@ -66,11 +66,14 @@ class XyzSpace extends XyzClient
             'description' => $description
         ]);
         return  $this->getResponse();
-
-
-
     }
 
+    public function delete($spaceId) {
+        $this->httpDelete();
+        $this->setType(self::API_TYPE_SPACEDELETE);
+        $this->spaceId($spaceId);
+        return  $this->getResponse();
+    }
     /**
      * The access rights for each space are included in the response.
      * @return $this
