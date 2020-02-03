@@ -58,6 +58,18 @@ class XyzSpace extends XyzClient
     }
 
 
+    public function create($title, $description) {
+        $this->httpPost();
+        $this->setType(self::API_TYPE_SPACECREATE);
+        $this->requestBody = json_encode((object) [
+            'title' => $title,
+            'description' => $description
+        ]);
+        return  $this->getResponse();
+
+
+
+    }
 
     /**
      * The access rights for each space are included in the response.
