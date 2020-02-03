@@ -41,6 +41,13 @@ To get XYZ Spaces by everybody (not only your own XYZ Spaces):
 $s =  XyzSpace::instance()->ownerAll()->get();
 ```
 
+### Delete Space
+To delete a XYZ Space:
+```php
+$xyzSpaceDeleted = XyzSpace::instance()->delete($spaceId);
+```
+
+
 ### Statistics
 The get statistics from XYZ Space:
 ```php
@@ -58,8 +65,8 @@ $result = $xyzSpaceFeature->iterate($spaceId)->get();
 
 ## Useful reference
 
-ReDoc API documentation¶
+ReDoc API documentation:
 https://xyz.api.here.com/hub/static/redoc/
 
-Open API documentation¶
+Open API documentation:
 https://xyz.api.here.com/hub/static/swagger/
