@@ -47,6 +47,11 @@ To delete a XYZ Space:
 $xyzSpaceDeleted = XyzSpace::instance()->delete($spaceId);
 ```
 
+### Create Space
+To create a new XYZ Space:
+```php
+$xyzSpaceCreated = XyzSpace::instance()->create("My Space", "Description");
+```
 
 ### Statistics
 The get statistics from XYZ Space:
