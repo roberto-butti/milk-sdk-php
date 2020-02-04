@@ -46,21 +46,38 @@ class XyzSpaceTest extends TestCase
         $this->assertEquals(404, $o->getStatusCode(), "Testing Space not found, 404 http status");
     }
 
+
+
+    public function testGetStatistics()
+    {
+        $spaceIdTest = "bB6WZ2Sb";
+        $o1 = XyzSpaceStatistics::instance()->spaceId($spaceIdTest)->get();
+        $this->assertEquals("StatisticsResponse", $o1->type, "Testing List Feature Statistics");
+    }
+
+    public function testCreateDeleteSpace()
+    {
+        $space = XyzSpace::instance();
+        $response = $space->create("My Space", "Description");
+        //$space->debug();
+        $jsonResponse =  json_decode($response->getBody());
+        //var_dump($jsonResponse);
+        $spaceId = $jsonResponse->id;
+        $this->assertIsString($spaceId, "Check spaceid after create");
+        //echo $spaceId;
+        //$o1 = XyzSpaceStatistics::instance()->spaceId($spaceId)->get();
+        //var_dump($o1);
+        $response = XyzSpace::instance()->delete($spaceId);
+
+    }
+
     public function testGetSpaceWrongToken() {
         $xyzSpace = XyzSpace::instance();
         $xyzSpace->setToken("asasasasasa");
         $o = $xyzSpace->spaceId("aa")->getResponse();
         $this->assertEquals(401, $o->getStatusCode(), "Testing Space no permission wrong token, 401 http status");
+        $xyzSpace->setToken(getenv('XYZ_ACCESS_TOKEN'));
 
-    }
-
-    public function testGetStatistics()
-    {
-        $conf = XyzConfig::getInstance();
-        $spaceIdTest = "bB6WZ2Sb";
-        $spaceStatistics = XyzSpaceStatistics::config($conf);
-        $o1 = $spaceStatistics->spaceId($spaceIdTest)->get();
-        $this->assertEquals("StatisticsResponse", $o1->type, "Testing List Feature Statistics");
     }
 
 }

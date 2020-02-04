@@ -64,6 +64,7 @@ class XyzSpaceStatistics extends XyzClient
     {
         $this->spaceId = $id;
         $this->setType(self::API_TYPE_STATISTICS);
+        $this->contentType= "application/json";
         return $this;
     }
 
