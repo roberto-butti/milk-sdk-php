@@ -23,8 +23,8 @@ class XyzSpaceStatistics extends XyzClient
         $this->reset();
     }
 
-    public static function instance():XyzSpaceStatistics {
-        $space = XyzSpaceStatistics::config(XyzConfig::getInstance());
+    public static function instance($xyzToken = ""):XyzSpaceStatistics {
+        $space = XyzSpaceStatistics::config(XyzConfig::getInstance($xyzToken));
         return $space;
     }
 

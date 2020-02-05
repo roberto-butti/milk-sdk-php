@@ -21,8 +21,8 @@ class XyzSpaceFeature extends XyzClient
         $this->reset();
     }
 
-    public static function instance():XyzSpaceFeature {
-        $features = XyzSpaceFeature::config(XyzConfig::getInstance());
+    public static function instance($xyzToken = ""):XyzSpaceFeature {
+        $features = XyzSpaceFeature::config(XyzConfig::getInstance($xyzToken));
         return $features;
     }
 

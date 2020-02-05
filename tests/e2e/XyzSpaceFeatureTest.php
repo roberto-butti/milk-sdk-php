@@ -7,12 +7,14 @@ class XyzSpaceFeatureTest extends TestCase
 {
     public function testGetFeaturesStatusCode()
     {
-        $xyzSpaceFeature = XyzSpaceFeature::instance()->iterate("bB6WZ2Sb")->getResponse();
+        $xyzToken = getenv('XYZ_ACCESS_TOKEN');
+        $xyzSpaceFeature = XyzSpaceFeature::instance($xyzToken)->iterate("bB6WZ2Sb")->getResponse();
         $this->assertEquals(200, $xyzSpaceFeature->getStatusCode(), "Testing List Feature");
     }
     public function testGetFeaturesStructure()
     {
-        $xyzSpaceFeature = XyzSpaceFeature::instance()->iterate("bB6WZ2Sb")->get();
+        $xyzToken = getenv('XYZ_ACCESS_TOKEN');
+        $xyzSpaceFeature = XyzSpaceFeature::instance($xyzToken)->iterate("bB6WZ2Sb")->get();
         $this->assertEquals("FeatureCollection", $xyzSpaceFeature->type, "Check FeatureCollection");
         $this->assertIsArray( $xyzSpaceFeature->features, "Check Features");
         $this->assertGreaterThan( 1, count($xyzSpaceFeature->features) , "Check lenght Features");

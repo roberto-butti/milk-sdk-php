@@ -18,10 +18,13 @@ function print_row($item, $key)
     echo "------------------------" . PHP_EOL;
 }
 
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__."/../");
+$dotenv->load();
 
 $spaceId = readline("Space ID : ");
+$xyzToken = getenv('XYZ_ACCESS_TOKEN');
 /** XyzSpaceFeature $xyzSpaceFeature */
-$xyzSpaceFeature = XyzSpaceFeature::instance();
+$xyzSpaceFeature = XyzSpaceFeature::instance($xyzToken);
 $result = $xyzSpaceFeature->iterate($spaceId)->get();
 array_walk($result->features, 'print_row');
 echo PHP_EOL;

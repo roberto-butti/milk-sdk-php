@@ -30,8 +30,8 @@ class XyzSpace extends XyzClient
         $this->reset();
     }
 
-    public static function instance():XyzSpace {
-        $space = XyzSpace::config(XyzConfig::getInstance());
+    public static function instance($xyzToken = ""):XyzSpace {
+        $space = XyzSpace::config(XyzConfig::getInstance($xyzToken));
         return $space;
     }
 

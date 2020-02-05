@@ -51,21 +51,17 @@ class XyzConfig
         return $this->credentials;
     }
 
-    private function __construct($env = self::ENV_PROD)
+    private function __construct($xyzToken = "", $env = self::ENV_PROD)
     {
-        /** @var Dotenv\Dotenv $dotenv */
-        $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__."/../../../../../");
-        $dotenv->load();
-        $xyzToken =  getenv('XYZ_ACCESS_TOKEN');
         // Setting things:
         $this->setEnvironment($env);
         $this->credentials = XyzCredentials::token($xyzToken);
     }
 
-    public static function getInstance($env = self::HOST_PROD)
+    public static function getInstance($xyzToken = "", $env = self::HOST_PROD)
     {
         if (self::$instance == null) {
-            self::$instance = new XyzConfig($env);
+            self::$instance = new XyzConfig($xyzToken, $env);
         }
         return self::$instance;
     }
