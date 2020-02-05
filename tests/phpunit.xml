@@ -4,6 +4,7 @@
     backupGlobals               = "false"
     backupStaticAttributes      = "false"
     colors                      = "true"
+    verbose                     = "true"
     convertErrorsToExceptions   = "true"
     convertNoticesToExceptions  = "true"
     convertWarningsToExceptions = "true"
@@ -26,5 +27,4 @@
     <php>
         <env name="APP_ENV" value="testing"/>
     </php>
-
 </phpunit>

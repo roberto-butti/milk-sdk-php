@@ -13,3 +13,4 @@
 
 # PHPUnit
 .phpunit.result.cache
+tests/build/
