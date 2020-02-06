@@ -4,9 +4,8 @@ Milk SDK PHP is a (fluent) open-source PHP library that makes it easy to integra
 
 ## Getting Started
 
-
-
 ### Install the SDK
+
 In your PHP project install package via composer:
 
 ```sh
