@@ -1,6 +1,6 @@
 {
     "name": "rbit/milk-sdk-php",
-    "version": "0.1.0-dev",
+    "version": "0.1.0",
     "description": "Package for consuming XYZ API from PHP",
     "keywords": [
         "rbit",
