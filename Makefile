@@ -12,7 +12,7 @@ infection: vendor
 	vendor/bin/infection --min-covered-msi=80 --min-msi=80
 
 test: vendor
-	vendor/phpunit/phpunit/phpunit --configuration=tests/phpunit.xml tests
+	vendor/bin/phpunit --configuration=tests/phpunit.xml tests
 
 #vendor/bin/phpunit --configuration=test/Unit/phpunit.xml
 #vendor/bin/phpunit --configuration=test/Integration/phpunit.xml
