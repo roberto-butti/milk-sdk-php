@@ -58,6 +58,14 @@ class XyzSpace extends XyzClient
     }
 
 
+    public function update($spaceId, $obj) {
+        $this->httpPatch();
+        $this->spaceId($spaceId);
+        $this->setType(self::API_TYPE_SPACEUPDATE);
+        $this->requestBody = json_encode($obj);
+        return  $this->getResponse();
+    }
+
     public function create($title, $description) {
         $this->httpPost();
         $this->setType(self::API_TYPE_SPACECREATE);

@@ -65,15 +65,29 @@ class XyzSpaceTest extends TestCase
         $xyzToken = getenv('XYZ_ACCESS_TOKEN');
         $space = XyzSpace::instance($xyzToken);
         $response = $space->create("My Space", "Description");
-        //$space->debug();
+
         $jsonResponse =  json_decode($response->getBody());
-        //var_dump($jsonResponse);
         $spaceId = $jsonResponse->id;
+
         $this->assertIsString($spaceId, "Check spaceid after create");
-        //echo $spaceId;
-        //$o1 = XyzSpaceStatistics::instance()->spaceId($spaceId)->get();
-        //var_dump($o1);
+
+        $obj = new \stdClass;
+        $obj->title = "Edited Title";
+        $obj->description = "Edited Description";
+        $retVal = $space->update($spaceId, $obj);
+
+        $this->assertEquals($spaceId,  json_decode($retVal->getBody())->id, "Update Space, check spaceId");
+        $this->assertEquals($obj->title,  json_decode($retVal->getBody())->title, "Update Space, check title");
+        $this->assertEquals($obj->description,  json_decode($retVal->getBody())->description, "Update Space, check description");
+
+        $response = $space->spaceId($spaceId)->get();
+        $this->assertEquals($spaceId,  $response->id, "Get after Update Space, check spaceId");
+        $this->assertEquals($obj->title,  $response->title, "Get after Update Space, check title");
+        $this->assertEquals($obj->description,  $response->description, "Get after Update Space, check description");
+
+
         $response = XyzSpace::instance($xyzToken)->delete($spaceId);
+        $this->assertEquals( 200, $response->getStatusCode(), "Delete Sapce, check status code" );
 
     }
 
