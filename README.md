@@ -82,6 +82,17 @@ To create a new XYZ Space:
 $xyzSpaceCreated = XyzSpace::instance($xyzToken)->create("My Space", "Description");
 ```
 
+### Update Space
+
+To update the XYZ Space with space id == $spaceId:
+
+```php
+$obj = new \stdClass;
+$obj->title = "Edited Title";
+$obj->description = "Edited Description";
+$retVal = $space->update($spaceId, $obj);
+```
+
 ### Statistics
 
 The get statistics from XYZ Space:
