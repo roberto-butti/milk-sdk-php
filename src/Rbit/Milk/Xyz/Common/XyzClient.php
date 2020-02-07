@@ -183,13 +183,18 @@ abstract class XyzClient
     public function get()
     {
         //echo $this->getUrl() . PHP_EOL;
-        $cache_tag = md5($this->getUrl() . $this->contentType . $this->method);
-        $file_cache = "./cache/".$cache_tag;
-        if (file_exists($file_cache)) {
-            $content = file_get_contents($file_cache);
+        $wannaDebug = false;
+        if ($wannaDebug) {
+            $cache_tag = md5($this->getUrl() . $this->contentType . $this->method);
+            $file_cache = "./cache/".$cache_tag;
+            if (file_exists($file_cache)) {
+                $content = file_get_contents($file_cache);
+            } else {
+                $content = $this->getResponse()->getBody();
+                file_put_contents($file_cache, $content);
+            }
         } else {
             $content = $this->getResponse()->getBody();
-            file_put_contents($file_cache, $content);
         }
         return json_decode($content);
     }
