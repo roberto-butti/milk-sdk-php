@@ -29,6 +29,7 @@ abstract class XyzClient
     const API_PATH_STATISTICS = "/hub/spaces/{spaceId}/statistics";
     const API_PATH_ITERATE = "/hub/spaces/{spaceId}/iterate";
     const API_PATH_SPACEDETAIL = "/hub/spaces/{spaceId}";
+    const API_PATH_SPACEUPDATE = "/hub/spaces/{spaceId}";
     const API_PATH_SPACEDELETE = "/hub/spaces/{spaceId}";
 
     protected const API_TYPE_SPACES = "SPACES";
@@ -37,6 +38,7 @@ abstract class XyzClient
     protected const API_TYPE_ITERATE = "ITERATE";
     protected const API_TYPE_SPACEDETAIL = "SPACEDETAIL";
     protected const API_TYPE_SPACECREATE = "SPACE_CREATE";
+    protected const API_TYPE_SPACEUPDATE = "SPACE_UPDATE";
     protected const API_TYPE_SPACEDELETE = "SPACE_DELETE";
 
     protected $apiHostPaths = [
@@ -46,6 +48,7 @@ abstract class XyzClient
         self::API_TYPE_ITERATE => self::API_PATH_ITERATE,
         self::API_TYPE_SPACEDETAIL => self::API_PATH_SPACEDETAIL,
         self::API_TYPE_SPACECREATE => self::API_PATH_SPACES,
+        self::API_TYPE_SPACEUPDATE => self::API_PATH_SPACEUPDATE,
         self::API_TYPE_SPACEDELETE => self::API_PATH_SPACEDELETE
     ];
 
@@ -118,6 +121,15 @@ abstract class XyzClient
     public function httpPost()
     {
         return $this->method("POST");
+    }
+
+        /**
+     * Set the PATCH method
+     * @return $this
+     */
+    public function httpPatch()
+    {
+        return $this->method("PATCH");
     }
 
     /**
@@ -217,6 +229,9 @@ abstract class XyzClient
             'Authorization' => "Bearer {$this->c->getCredentials()->getAccessToken()}"
         ];
         if ($method === "POST") {
+            $headers['Content-Type'] = "application/json";
+        }
+        if ($method === "PATCH") {
             $headers['Content-Type'] = "application/json";
         }
         $requestOptions=[
