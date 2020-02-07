@@ -1,12 +1,15 @@
 {
     "name": "rbit/milk-sdk-php",
     "version": "0.1.0",
-    "description": "Package for consuming XYZ API from PHP",
+    "description": "Milk SDK PHP is a (fluent) open-source PHP library that makes it easy to integrate your PHP application with location services like XYZ Hub API, Geocoder API, ...",
     "keywords": [
-        "rbit",
-        "milk"
+        "geolocation",
+        "location",
+        "sdk",
+        "php-sdk",
+        "xyz-spaces"
     ],
-    "homepage": "https://github.com/rbit/milk",
+    "homepage": "https://github.com/roberto-butti/milk-sdk-php",
     "license": "MIT",
     "type": "library",
     "authors": [
