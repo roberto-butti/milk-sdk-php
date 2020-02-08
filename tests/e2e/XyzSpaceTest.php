@@ -40,7 +40,8 @@ class XyzSpaceTest extends TestCase
         $this->assertEquals($spaceIdTest, $space->id, "Testing List 1 space, with space id: ". $spaceIdTest);
     }
 
-    public function testGetSpaceNotFound() {
+    public function testGetSpaceNotFound()
+    {
         $xyzToken = getenv('XYZ_ACCESS_TOKEN');
         $o = XyzSpace::instance($xyzToken)->spaceId("aa")->get();
         $this->assertEquals("ErrorResponse", $o->type, "Testing Space not found, Error response");
@@ -76,39 +77,36 @@ class XyzSpaceTest extends TestCase
 
         $space->reset();
         $response = $space->spaceId($spaceId)->get();
-        $space->debug();
-        var_dump($response);
-        $this->assertEquals($spaceTitle,  $response->title, "Get after Create Space, check title");
-        $this->assertEquals($spaceDescription,  $response->description, "Get after Create Space, check description");
+        //$space->debug();
+
+        $this->assertEquals($spaceTitle, $response->title, "Get after Create Space, check title");
+        $this->assertEquals($spaceDescription, $response->description, "Get after Create Space, check description");
 
         $obj = new \stdClass;
         $obj->title = "Edited Title";
         $obj->description = "Edited Description";
         $retVal = $space->update($spaceId, $obj);
 
-        $this->assertEquals($spaceId,  json_decode($retVal->getBody())->id, "Update Space, check spaceId");
-        $this->assertEquals($obj->title,  json_decode($retVal->getBody())->title, "Update Space, check title");
-        $this->assertEquals($obj->description,  json_decode($retVal->getBody())->description, "Update Space, check description");
+        $this->assertEquals($spaceId, json_decode($retVal->getBody())->id, "Update Space, check spaceId");
+        $this->assertEquals($obj->title, json_decode($retVal->getBody())->title, "Update Space, check title");
+        $this->assertEquals($obj->description, json_decode($retVal->getBody())->description, "Update Space, check description");
 
         $response = $space->spaceId($spaceId)->cacheResponse(false)->get();
-        $this->assertEquals($spaceId,  $response->id, "Get after Update Space, No cache, check spaceId");
-        $this->assertEquals($obj->title,  $response->title, "Get after Update Space, No cache, check title");
-        $this->assertEquals($obj->description,  $response->description, "Get after Update Space, No cache, check description");
+        $this->assertEquals($spaceId, $response->id, "Get after Update Space, No cache, check spaceId");
+        $this->assertEquals($obj->title, $response->title, "Get after Update Space, No cache, check title");
+        $this->assertEquals($obj->description, $response->description, "Get after Update Space, No cache, check description");
 
 
         $response = XyzSpace::instance($xyzToken)->delete($spaceId);
-        $this->assertEquals( 200, $response->getStatusCode(), "Delete Sapce, check status code" );
-
+        $this->assertEquals(200, $response->getStatusCode(), "Delete Sapce, check status code");
     }
 
-    public function testGetSpaceWrongToken() {
-
+    public function testGetSpaceWrongToken()
+    {
         $xyzSpace = XyzSpace::instance();
         $xyzSpace->setToken("asasasasasa");
         $o = $xyzSpace->spaceId("aa")->getResponse();
         $this->assertEquals(401, $o->getStatusCode(), "Testing Space no permission wrong token, 401 http status");
         $xyzSpace->setToken(getenv('XYZ_ACCESS_TOKEN'));
-
     }
-
 }

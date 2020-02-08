@@ -3,6 +3,7 @@ require __DIR__."/../vendor/autoload.php";
 
 use \Rbit\Milk\Xyz\Space\XyzSpace;
 use \Rbit\Milk\Xyz\Common\XyzConfig;
+
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__."/../");
 $dotenv->load();
 
@@ -12,27 +13,28 @@ function print_row($item, $key)
 }
 
 $xyzToken = getenv('XYZ_ACCESS_TOKEN');
+$space = XyzSpace::instance($xyzToken);
+
 
 echo "GET" . PHP_EOL;
-$s = XyzSpace::instance($xyzToken)->get();
+$s = $space->get();
 array_walk($s, 'print_row');
 
 
 echo "GET OWNER ALL" . PHP_EOL;
-echo "---". $xyzToken;
-$spaces = XyzSpace::instance($xyzToken);
-$spaces->setToken($xyzToken);
-$s =  $spaces->ownerAll()->get();
-$spaces->debug();
+$space->reset();
+$s =  $space->ownerAll()->getLimited(2);
+$space->debug();
 array_walk($s, 'print_row');
-$spaces->debug();
+
 
 echo "GET OTHERS" . PHP_EOL;
-$s =  XyzSpace::instance($xyzToken)->ownerOthers()->get();
+$space->reset();
+$s =  $space->ownerOthers()->getLimited(2);
 array_walk($s, 'print_row');
 
 echo "GET INCLUDE RIGHTS" . PHP_EOL;
-$s =  XyzSpace::instance($xyzToken)->ownerOthers()->includeRights()->get();
+$space->reset();
+$s =  $space->ownerOthers()->includeRights()->getLimited(2);
 array_walk($s, 'print_row');
-
-
+$space->debug();

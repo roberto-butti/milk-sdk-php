@@ -13,11 +13,10 @@ use Rbit\Milk\Xyz\Common\XyzConfig;
  */
 class XyzSpace extends XyzClient
 {
-
-
     private bool $paramIncludeRights = false;
     private string $paramOwner = "";
     private string $paramOwnerId = "";
+    private ?int $paramLimit = null;
 
     public const PARAM_OWNER_ME = "me";
     public const PARAM_OWNER_ID = "someother";
@@ -30,18 +29,21 @@ class XyzSpace extends XyzClient
         $this->reset();
     }
 
-    public static function instance($xyzToken = ""):XyzSpace {
+    public static function instance($xyzToken = ""):XyzSpace
+    {
         $space = XyzSpace::config(XyzConfig::getInstance($xyzToken));
         return $space;
     }
 
-    public static function config(XyzConfig $c):XyzSpace {
+    public static function config(XyzConfig $c):XyzSpace
+    {
         $space = new XyzSpace();
         $space->c = $c;
         return $space;
     }
 
-    public static function setToken(string $token):XyzSpace {
+    public static function setToken(string $token):XyzSpace
+    {
         $space = XyzSpace::config(XyzConfig::getInstance());
         $space->c->setToken($token);
         return $space;
@@ -55,10 +57,12 @@ class XyzSpace extends XyzClient
         $this->paramOwner = "";
         $this->paramOwnerId = "";
         $this->spaceId = "";
+        $this->paramLimit = null;
     }
 
 
-    public function update($spaceId, $obj) {
+    public function update($spaceId, $obj)
+    {
         $this->httpPatch();
         $this->spaceId($spaceId);
         $this->setType(self::API_TYPE_SPACEUPDATE);
@@ -66,7 +70,8 @@ class XyzSpace extends XyzClient
         return  $this->getResponse();
     }
 
-    public function create($title, $description) {
+    public function create($title, $description)
+    {
         $this->httpPost();
         $this->setType(self::API_TYPE_SPACECREATE);
         $this->requestBody = json_encode((object) [
@@ -76,7 +81,8 @@ class XyzSpace extends XyzClient
         return  $this->getResponse();
     }
 
-    public function delete($spaceId) {
+    public function delete($spaceId)
+    {
         $this->httpDelete();
         $this->setType(self::API_TYPE_SPACEDELETE);
         $this->spaceId($spaceId);
@@ -89,6 +95,18 @@ class XyzSpace extends XyzClient
     public function includeRights(): XyzSpace
     {
         $this->paramIncludeRights = true;
+        return $this;
+    }
+
+
+    /**
+     * Set limit of response.
+     * NOT IMPLEMENTED BY API, use getLimited instead.
+     * @return $this
+     */
+    public function limit(int $limit): XyzSpace
+    {
+        $this->paramLimit = $limit;
         return $this;
     }
 
@@ -123,7 +141,7 @@ class XyzSpace extends XyzClient
      */
     public function ownerSomeOther($ownerId): XyzSpace
     {
-        return $this->owner(self::PARAM_OWNER_ID,  $ownerId);
+        return $this->owner(self::PARAM_OWNER_ID, $ownerId);
     }
 
     /**
@@ -143,7 +161,7 @@ class XyzSpace extends XyzClient
         return $this->owner(self::PARAM_OWNER_ALL);
     }
 
-        /**
+    /**
      * Set the space id in the API
      * @param string $id
      * @return $this
@@ -165,6 +183,11 @@ class XyzSpace extends XyzClient
             $retString = $this->addQueryParam($retString, "includeRights", "true");
         }
 
+        /* not used */
+        if ($this->paramLimit) {
+            $retString = $this->addQueryParam($retString, "limit", $this->paramLimit);
+        }
+
         if ($this->paramOwner != "") {
             if ($this->paramOwner !== self::PARAM_OWNER_ID) {
                 $retString = $this->addQueryParam($retString, "owner", $this->paramOwner);
@@ -175,5 +198,12 @@ class XyzSpace extends XyzClient
 
 
         return $retString;
+    }
+
+
+    public function getLimited($limit)
+    {
+        $array = $this->get();
+        return array_slice($array, 0, $limit);
     }
 }
