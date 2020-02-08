@@ -101,7 +101,13 @@ abstract class XyzClient
         $this->requestBody = null;
     }
 
-    protected function setType($apiType)
+    /**
+     * Set the type of Endpoint developer wants to call- It is used to remember the endpoint AND set the correct path of endpoint
+     * The type could be one of self::API_TYPE_*
+     * @param string $apiType
+     * @return void
+     */
+    protected function setType(string $apiType)
     {
         $this->apiType = $apiType;
         $this->uri = $this->apiHostPaths[$apiType];
@@ -136,7 +142,7 @@ abstract class XyzClient
         return $this->method("POST");
     }
 
-        /**
+    /**
      * Set the PATCH method
      * @return $this
      */
@@ -154,7 +160,12 @@ abstract class XyzClient
         return $this->method("DELETE");
     }
 
-
+    /**
+     * Define if switch on or of caching response from APIs
+     *
+     * @param boolean $wannaCache
+     * @return XyzClient
+     */
     public function cacheResponse(bool $wannaCache): XyzClient {
         $this->cacheResponse = $wannaCache;
         return $this;
@@ -180,8 +191,6 @@ abstract class XyzClient
         try {
             $res = $this->call($this->getUrl(), $this->contentType, $this->method, $this->requestBody);
         } catch (RequestException $e) {
-
-
             if ($e->hasResponse()) {
                 $res = $e->getResponse();
             } else {
