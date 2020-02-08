@@ -16,21 +16,22 @@ composer require rbit/milk-sdk-php
 
 Obtain your ACCESS TOKEN from https://developer.here.com/
 
-Create a *.env* file. You can start from a sample file (*.env.dist*):
+Create a _.env_ file. You can start from a sample file (_.env.dist_):
+
 ```sh
 cp .env.dist .env
 ```
 
 Then, you need to fill your XYZ_ACCESS_TOKEN in .env file with your access token.
 
-
 ## Quick Examples
 
 In order to use the Milk SDK, you need to:
+
 - create a PHP file
 - include the autoload.php file
-- declare all imports via *use*
-- load environment configuration (via *Dotenv*)
+- declare all imports via _use_
+- load environment configuration (via _Dotenv_)
 - get your token
 - get your XYZ Spaces
 - display your result
@@ -50,7 +51,6 @@ $s = XyzSpace::setToken($xyzToken)->get();
 // display your result
 var_dump($s);
 ```
-
 
 ### Retrieve your XYZ Spaces
 
@@ -84,7 +84,7 @@ $xyzSpaceCreated = XyzSpace::instance($xyzToken)->create("My Space", "Descriptio
 
 ### Update Space
 
-To update the XYZ Space with space id == $spaceId:
+To update the XYZ Space with space id == \$spaceId:
 
 ```php
 $obj = new \stdClass;
@@ -109,6 +109,15 @@ Iterate features
 /** XyzSpaceFeature $xyzSpaceFeature */
 $xyzSpaceFeature = new XyzSpaceFeature::instance($xyzToken);
 $result = $xyzSpaceFeature->iterate($spaceId)->get();
+```
+
+### Retrieve 1 Feature
+
+You need to use feature() method with $featureId and $spaceId
+
+```php
+$xyzSpaceFeature = XyzSpaceFeature::instance($xyzToken);
+$result = $xyzSpaceFeature->feature($featureId, $spaceId)->get();
 ```
 
 ## Useful reference

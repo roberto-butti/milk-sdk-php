@@ -78,6 +78,17 @@ class XyzSpaceFeature extends XyzClient
         return $this;
     }
 
+    public function feature($featureId, $spaceId= ""): XyzSpaceFeature
+    {
+        if ($spaceId !== "") {
+            $this->spaceId = $spaceId;
+        }
+        $this->featureId = $featureId;
+        $this->contentType = "application/geo+json";
+        $this->setType(self::API_TYPE_FEATURE_DETAIL);
+        return $this;
+    }
+
     public function featureIds(array $featureIds): XyzSpaceFeature
     {
         $this->featureIds = $featureIds;
@@ -161,5 +172,21 @@ class XyzSpaceFeature extends XyzClient
     {
         $this->paramHandle = $handle;
         return $this;
+    }
+
+    /**
+     * Return the URL of the API, replacing the placeholder with real values.
+     * For example if spaceId is 12345 the Url for Space statistics is /spaces/12345/statistics
+     *
+     * @return string
+     */
+    public function getPath():string
+    {
+        if ($this->featureId != "") {
+            $this->uri = str_replace("{featureId}", $this->featureId, $this->uri);
+        }
+        echo parent::getPath();
+        return parent::getPath();
+        //return $retUrl;
     }
 }
