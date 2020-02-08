@@ -64,12 +64,22 @@ class XyzSpaceTest extends TestCase
     {
         $xyzToken = getenv('XYZ_ACCESS_TOKEN');
         $space = XyzSpace::instance($xyzToken);
-        $response = $space->create("My Space", "Description");
+        $spaceTitle = "My Space";
+        $spaceDescription = "Description";
+        $response = $space->create($spaceTitle, $spaceDescription);
 
         $jsonResponse =  json_decode($response->getBody());
         $spaceId = $jsonResponse->id;
 
         $this->assertIsString($spaceId, "Check spaceid after create");
+
+
+        $space->reset();
+        $response = $space->spaceId($spaceId)->get();
+        $space->debug();
+        var_dump($response);
+        $this->assertEquals($spaceTitle,  $response->title, "Get after Create Space, check title");
+        $this->assertEquals($spaceDescription,  $response->description, "Get after Create Space, check description");
 
         $obj = new \stdClass;
         $obj->title = "Edited Title";
@@ -80,10 +90,10 @@ class XyzSpaceTest extends TestCase
         $this->assertEquals($obj->title,  json_decode($retVal->getBody())->title, "Update Space, check title");
         $this->assertEquals($obj->description,  json_decode($retVal->getBody())->description, "Update Space, check description");
 
-        $response = $space->spaceId($spaceId)->get();
-        $this->assertEquals($spaceId,  $response->id, "Get after Update Space, check spaceId");
-        $this->assertEquals($obj->title,  $response->title, "Get after Update Space, check title");
-        $this->assertEquals($obj->description,  $response->description, "Get after Update Space, check description");
+        $response = $space->spaceId($spaceId)->cacheResponse(false)->get();
+        $this->assertEquals($spaceId,  $response->id, "Get after Update Space, No cache, check spaceId");
+        $this->assertEquals($obj->title,  $response->title, "Get after Update Space, No cache, check title");
+        $this->assertEquals($obj->description,  $response->description, "Get after Update Space, No cache, check description");
 
 
         $response = XyzSpace::instance($xyzToken)->delete($spaceId);

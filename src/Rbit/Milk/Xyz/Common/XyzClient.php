@@ -24,6 +24,8 @@ abstract class XyzClient
     protected $spaceId = "";
     private $method;
 
+    private $cacheResponse = true;
+
     const API_PATH_SPACES = "/hub/spaces";
     const API_PATH_FEATURES = "/hub/spaces/{spaceId}/features";
     const API_PATH_STATISTICS = "/hub/spaces/{spaceId}/statistics";
@@ -66,6 +68,11 @@ abstract class XyzClient
         $this->reset();
     }
 
+    /**
+     * Show and list in console the current attributes of the object (spaceId, Url, content type etc)
+     *
+     * @return void
+     */
     public function debug(): void {
         echo "CLIENT : " . PHP_EOL;
         echo "=========" . PHP_EOL;
@@ -77,16 +84,21 @@ abstract class XyzClient
         echo "TOKEN  : " . $this->c->getCredentials()->getAccessToken(). PHP_EOL;
         var_dump($this->requestBody);
         echo "=========" . PHP_EOL;
-
-
     }
 
+    /**
+     * Function to reset all attributes as default (Reset Object to Factory settings)
+     *
+     * @return void
+     */
     protected function reset()
     {
         $this->uri = "";
         $this->contentType = "application/json";
         $this->method = "GET";
         $this->apiType = self::API_TYPE_SPACES;
+        $this->cacheResponse = true;
+        $this->requestBody = null;
     }
 
     protected function setType($apiType)
@@ -96,6 +108,7 @@ abstract class XyzClient
     }
 
     /**
+     * Set the HTTP Method for the endpoint ("GET", "POST", "DELETE", "PATCH")
      * @param string $method
      * @return $this
      */
@@ -141,6 +154,12 @@ abstract class XyzClient
         return $this->method("DELETE");
     }
 
+
+    public function cacheResponse(bool $wannaCache): XyzClient {
+        $this->cacheResponse = $wannaCache;
+        return $this;
+    }
+
     /**
      * @param $url, the URL (or the path) to add the new $name parameter with the value $value
      * @param $name
@@ -183,8 +202,7 @@ abstract class XyzClient
     public function get()
     {
         //echo $this->getUrl() . PHP_EOL;
-        $wannaDebug = false;
-        if ($wannaDebug) {
+        if ($this->cacheResponse) {
             $cache_tag = md5($this->getUrl() . $this->contentType . $this->method);
             $file_cache = "./cache/".$cache_tag;
             if (file_exists($file_cache)) {
