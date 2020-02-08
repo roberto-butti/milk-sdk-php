@@ -3,7 +3,6 @@
 
 namespace Rbit\Milk\Xyz\Space;
 
-
 use Rbit\Milk\Xyz\Common\XyzConfig;
 use Rbit\Milk\Xyz\Common\XyzClient;
 
@@ -14,6 +13,7 @@ use Rbit\Milk\Xyz\Common\XyzClient;
 class XyzSpaceFeature extends XyzClient
 {
     private string $featureId ="";
+    private array $featureIds = [];
     private ?int $paramLimit = null;
     private array $paramSelection = [];
     private bool $paramSkipCache = false;
@@ -28,18 +28,21 @@ class XyzSpaceFeature extends XyzClient
         $this->reset();
     }
 
-    public static function instance($xyzToken = ""):XyzSpaceFeature {
+    public static function instance($xyzToken = ""):XyzSpaceFeature
+    {
         $features = XyzSpaceFeature::config(XyzConfig::getInstance($xyzToken));
         return $features;
     }
 
-    public static function config(XyzConfig $c):XyzSpaceFeature {
+    public static function config(XyzConfig $c):XyzSpaceFeature
+    {
         $features = new XyzSpaceFeature();
         $features->c = $c;
         return $features;
     }
 
-    public static function setToken(string $token):XyzSpaceFeature {
+    public static function setToken(string $token):XyzSpaceFeature
+    {
         $features = XyzSpaceFeature::config(XyzConfig::getInstance());
         $features->c->setToken($token);
         return $features;
@@ -56,8 +59,7 @@ class XyzSpaceFeature extends XyzClient
         $this->paramSelection = [];
         $this->paramSkipCache = false;
         $this->paramHandle = "";
-
-
+        $this->featureIds = [];
     }
 
     public function iterate($spaceId): XyzSpaceFeature
@@ -65,6 +67,20 @@ class XyzSpaceFeature extends XyzClient
         $this->spaceId = $spaceId;
         $this->contentType = "application/geo+json";
         $this->setType(self::API_TYPE_ITERATE);
+        return $this;
+    }
+
+    public function features($spaceId): XyzSpaceFeature
+    {
+        $this->spaceId = $spaceId;
+        $this->contentType = "application/geo+json";
+        $this->setType(self::API_TYPE_FEATURES);
+        return $this;
+    }
+
+    public function featureIds(array $featureIds): XyzSpaceFeature
+    {
+        $this->featureIds = $featureIds;
         return $this;
     }
 
@@ -103,8 +119,11 @@ class XyzSpaceFeature extends XyzClient
         if ($this->paramHandle) {
             $retString = $this->addQueryParam($retString, "handle", $this->paramHandle);
         }
-        if (is_array($this->paramSelection) && count($this->paramSelection) > 0 ) {
+        if (is_array($this->paramSelection) && count($this->paramSelection) > 0) {
             $retString = $this->addQueryParam($retString, "selection", implode(",", $this->paramSelection));
+        }
+        if (is_array($this->featureIds) && count($this->featureIds) > 0) {
+            $retString = $this->addQueryParam($retString, "id", implode(",", $this->featureIds));
         }
 
         return $retString;
@@ -126,7 +145,7 @@ class XyzSpaceFeature extends XyzClient
      * use ["p.title", "p.description"].
      * @return $this
      */
-    public function selection(array $propertiesList ): XyzSpaceFeature
+    public function selection(array $propertiesList): XyzSpaceFeature
     {
         $this->paramSelection = $propertiesList;
         return $this;
@@ -138,10 +157,9 @@ class XyzSpaceFeature extends XyzClient
      * use ["p.title", "p.description"].
      * @return $this
      */
-    public function handle(string $handle ): XyzSpaceFeature
+    public function handle(string $handle): XyzSpaceFeature
     {
         $this->paramHandle = $handle;
         return $this;
     }
-
 }

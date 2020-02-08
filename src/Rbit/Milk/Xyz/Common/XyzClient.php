@@ -73,7 +73,8 @@ abstract class XyzClient
      *
      * @return void
      */
-    public function debug(): void {
+    public function debug(): void
+    {
         echo "CLIENT : " . PHP_EOL;
         echo "=========" . PHP_EOL;
         echo "URL    : " . $this->getUrl(). PHP_EOL;
@@ -166,7 +167,8 @@ abstract class XyzClient
      * @param boolean $wannaCache
      * @return XyzClient
      */
-    public function cacheResponse(bool $wannaCache): XyzClient {
+    public function cacheResponse(bool $wannaCache): XyzClient
+    {
         $this->cacheResponse = $wannaCache;
         return $this;
     }
@@ -270,7 +272,7 @@ abstract class XyzClient
             //'debug' => true,
             'headers' => $headers
         ];
-        if ( ! is_null($body) ) {
+        if (! is_null($body)) {
             $requestOptions["body"] = $body;
         }
 
