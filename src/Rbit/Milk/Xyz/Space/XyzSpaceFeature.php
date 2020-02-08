@@ -185,7 +185,7 @@ class XyzSpaceFeature extends XyzClient
         if ($this->featureId != "") {
             $this->uri = str_replace("{featureId}", $this->featureId, $this->uri);
         }
-        echo parent::getPath();
+
         return parent::getPath();
         //return $retUrl;
     }
