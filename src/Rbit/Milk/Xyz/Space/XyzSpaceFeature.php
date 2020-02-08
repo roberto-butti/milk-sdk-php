@@ -5,6 +5,7 @@ namespace Rbit\Milk\Xyz\Space;
 
 use Rbit\Milk\Xyz\Common\XyzConfig;
 use Rbit\Milk\Xyz\Common\XyzClient;
+use stdClass;
 
 /**
  * Class XyzSpaceFeature
@@ -18,6 +19,8 @@ class XyzSpaceFeature extends XyzClient
     private array $paramSelection = [];
     private bool $paramSkipCache = false;
     private string $paramHandle = "";
+    private array $paramTags = [];
+    private array $paramSearchParams = [];
 
 
 
@@ -78,6 +81,16 @@ class XyzSpaceFeature extends XyzClient
         return $this;
     }
 
+    public function search($spaceId): XyzSpaceFeature
+    {
+        $this->spaceId = $spaceId;
+        $this->httpGet();
+        $this->contentType = "application/geo+json";
+        $this->setType(self::API_TYPE_FEATURE_SEARCH);
+
+        return $this;
+    }
+
     public function feature($featureId, $spaceId= ""): XyzSpaceFeature
     {
         if ($spaceId !== "") {
@@ -117,6 +130,44 @@ class XyzSpaceFeature extends XyzClient
         return $this;
     }
 
+    /**
+     * Set the tags for search endpoint
+     * @param array $tags
+     * @return $this
+     */
+    public function tags(array $tags): XyzSpaceFeature
+    {
+        $this->paramTags = $tags;
+        return $this;
+    }
+
+    /**
+     * Clean search params list
+     * @param array $tags
+     * @return $this
+     */
+    public function cleanSearchParams(): XyzSpaceFeature
+    {
+        $this->paramSearchParams = [];
+        return $this;
+    }
+
+    /**
+     * Clean search params list
+     * @param array $tags
+     * @return $this
+     */
+    public function addSearchParams($name, $value, $operator = "="): XyzSpaceFeature
+    {
+        $searachParam = new stdClass;
+        $searachParam->name = $name;
+        $searachParam->operator = $operator;
+        $searachParam->value = $value;
+        $this->paramSearchParams[] = $searachParam;
+        return $this;
+    }
+
+
     protected function queryString(): string
     {
         $retString = "";
@@ -136,6 +187,22 @@ class XyzSpaceFeature extends XyzClient
         if (is_array($this->featureIds) && count($this->featureIds) > 0) {
             $retString = $this->addQueryParam($retString, "id", implode(",", $this->featureIds));
         }
+        if (is_array($this->paramTags) && count($this->paramTags) > 0) {
+            $retString = $this->addQueryParam($retString, "tags", implode(",", $this->paramTags));
+        }
+
+        if (is_array($this->paramSearchParams) && count($this->paramSearchParams) > 0) {
+            $tempString = "";
+            //$separator = "";
+            foreach ($this->paramSearchParams as $key => $searchParam) {
+                //$tempString = $tempString . $separator . $searchParam->name .  $searchParam->operator . $searchParam->value;
+                //$separator = ",";
+                $retString = $this->addQueryParam($retString, $searchParam->name, $searchParam->value);
+            }
+            //$retString = $this->addQueryParam($retString, "params", $tempString);
+        }
+
+
 
         return $retString;
     }
