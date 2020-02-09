@@ -6,14 +6,6 @@ namespace Rbit\Milk\Xyz\Common;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\HandlerStack;
-
-use Rbit\Milk\Xyz\Space\XyzSpace;
-
-use Kevinrob\GuzzleCache\CacheMiddleware;
-use League\Flysystem\Adapter\Local;
-use Kevinrob\GuzzleCache\Strategy\PrivateCacheStrategy;
-use Kevinrob\GuzzleCache\Storage\FlysystemStorage;
 
 abstract class XyzClient
 {

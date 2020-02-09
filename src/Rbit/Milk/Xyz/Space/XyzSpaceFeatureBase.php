@@ -1,0 +1,196 @@
+<?php
+
+
+namespace Rbit\Milk\Xyz\Space;
+
+use Rbit\Milk\Xyz\Common\XyzConfig;
+use Rbit\Milk\Xyz\Common\XyzClient;
+
+/**
+ * Class XyzSpaceFeatureBase
+ * @package Rbit\Milk\Xyz\Space
+ */
+abstract class XyzSpaceFeatureBase extends XyzClient
+{
+    protected string $featureId ="";
+    protected array $paramFeatureIds = [];
+    protected ?int $paramLimit = null;
+    protected array $paramSelection = [];
+    protected bool $paramSkipCache = false;
+    protected string $paramHandle = "";
+
+
+
+
+
+    public function __construct()
+    {
+        $this->reset();
+    }
+
+    public static function instance($xyzToken = ""):XyzSpaceFeatureBase
+    {
+        $features = XyzSpaceFeatureBase::config(XyzConfig::getInstance($xyzToken));
+        return $features;
+    }
+
+    public static function config(XyzConfig $c):XyzSpaceFeatureBase
+    {
+        $features = new XyzSpaceFeatureBase();
+        $features->c = $c;
+        return $features;
+    }
+
+    public static function setToken(string $token):XyzSpaceFeatureBase
+    {
+        $features = XyzSpaceFeatureBase::config(XyzConfig::getInstance());
+        $features->c->setToken($token);
+        return $features;
+    }
+
+    public function reset()
+    {
+        parent::reset();
+        $this->contentType = "application/geo+json";
+        $this->featureId = "";
+        $this->spaceId = "";
+        $this->paramLimit = null;
+        $this->paramSelection = [];
+        $this->paramSkipCache = false;
+        $this->paramHandle = "";
+        $this->paramFeatureIds = [];
+    }
+
+    /******************************************************
+     *
+     * Method for ENDPOINTS
+     *
+     *****************************************************/
+
+    /******************************************************
+     *
+     * Method for SETTING ATTRIBUTES
+     *
+     *****************************************************/
+
+    /**
+    * Set the feature ids (list of ids) in the API as parameter. Useful for API where you need
+    * to select multiple features
+    * @param array $featureIds
+    * @return $this
+    */
+    public function featureIds(array $featureIds): XyzSpaceFeatureBase
+    {
+        $this->paramFeatureIds = $featureIds;
+        return $this;
+    }
+
+    /**
+     * Set the feature id in the API (as PATH like /spaces/{spaceId}/features/{featureId})
+     * @param string $id
+     * @return $this
+     */
+    public function featureId(string $id): XyzSpaceFeatureBase
+    {
+        $this->featureId = $id;
+        return $this;
+    }
+
+    /**
+     * Set the limit in the API
+     * @param int $limit
+     * @return $this
+     */
+    public function limit(int $limit): XyzSpaceFeatureBase
+    {
+        $this->paramLimit = $limit;
+        return $this;
+    }
+
+    /**
+     * If set to true the response is not returned from cache. Default is false.
+     * @return $this
+     */
+    public function skipCache(bool $skipcache = true): XyzSpaceFeatureBase
+    {
+        $this->paramSkipCache = $skipcache;
+        return $this;
+    }
+
+
+    /**
+     * List the properties you want to include in the response. If you have a property "title" and "description" you need to
+     * use ["p.title", "p.description"].
+     * @return $this
+     */
+    public function selection(array $propertiesList): XyzSpaceFeatureBase
+    {
+        $this->paramSelection = $propertiesList;
+        return $this;
+    }
+
+
+    /**
+     * Manage handle parameter for pagination.
+     * @param  string $handle the hash $handle, received from the previous API Call (when you are performing
+     * multiple calls for paginate results)
+     * @return $this
+     */
+    public function handle(string $handle): XyzSpaceFeatureBase
+    {
+        $this->paramHandle = $handle;
+        return $this;
+    }
+
+
+
+
+    /******************************************************
+     *
+     * Method for  ATTRIBUTES
+     *
+     *****************************************************/
+
+    protected function queryString(): string
+    {
+        $retString = "";
+
+        if ($this->paramSkipCache) {
+            $retString = $this->addQueryParam($retString, "skipCache", "true");
+        }
+        if ($this->paramLimit) {
+            $retString = $this->addQueryParam($retString, "limit", $this->paramLimit);
+        }
+        if ($this->paramHandle) {
+            $retString = $this->addQueryParam($retString, "handle", $this->paramHandle);
+        }
+        if (is_array($this->paramSelection) && count($this->paramSelection) > 0) {
+            $retString = $this->addQueryParam($retString, "selection", implode(",", $this->paramSelection));
+        }
+        if (is_array($this->paramFeatureIds) && count($this->paramFeatureIds) > 0) {
+            $retString = $this->addQueryParam($retString, "id", implode(",", $this->paramFeatureIds));
+        }
+
+        return $retString;
+    }
+
+
+
+
+
+    /**
+     * Return the URL of the API, replacing the placeholder with real values.
+     * For example if spaceId is 12345 the Url for Space statistics is /spaces/12345/statistics
+     *
+     * @return string
+     */
+    public function getPath():string
+    {
+        if ($this->featureId != "") {
+            $this->uri = str_replace("{featureId}", $this->featureId, $this->uri);
+        }
+
+        return parent::getPath();
+        //return $retUrl;
+    }
+}
