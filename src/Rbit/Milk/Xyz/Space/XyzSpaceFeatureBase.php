@@ -5,6 +5,7 @@ namespace Rbit\Milk\Xyz\Space;
 
 use Rbit\Milk\Xyz\Common\XyzConfig;
 use Rbit\Milk\Xyz\Common\XyzClient;
+use stdClass;
 
 /**
  * Class XyzSpaceFeatureBase
@@ -18,6 +19,8 @@ abstract class XyzSpaceFeatureBase extends XyzClient
     protected array $paramSelection = [];
     protected bool $paramSkipCache = false;
     protected string $paramHandle = "";
+    private array $paramTags = [];
+    private array $paramSearchParams = [];
 
 
 
@@ -142,6 +145,42 @@ abstract class XyzSpaceFeatureBase extends XyzClient
         return $this;
     }
 
+    /**
+     * Set the tags for search endpoint
+     * @param array $tags
+     * @return $this
+     */
+    public function tags(array $tags): XyzSpaceFeature
+    {
+        $this->paramTags = $tags;
+        return $this;
+    }
+
+    /**
+     * Clean search params list
+     * @param array $tags
+     * @return $this
+     */
+    public function cleanSearchParams(): XyzSpaceFeature
+    {
+        $this->paramSearchParams = [];
+        return $this;
+    }
+
+    /**
+     * Clean search params list
+     * @param array $tags
+     * @return $this
+     */
+    public function addSearchParams($name, $value, $operator = "="): XyzSpaceFeature
+    {
+        $searachParam = new stdClass;
+        $searachParam->name = $name;
+        $searachParam->operator = $operator;
+        $searachParam->value = $value;
+        $this->paramSearchParams[] = $searachParam;
+        return $this;
+    }
 
 
 
@@ -169,6 +208,20 @@ abstract class XyzSpaceFeatureBase extends XyzClient
         }
         if (is_array($this->paramFeatureIds) && count($this->paramFeatureIds) > 0) {
             $retString = $this->addQueryParam($retString, "id", implode(",", $this->paramFeatureIds));
+        }
+        if (is_array($this->paramTags) && count($this->paramTags) > 0) {
+            $retString = $this->addQueryParam($retString, "tags", implode(",", $this->paramTags));
+        }
+
+        if (is_array($this->paramSearchParams) && count($this->paramSearchParams) > 0) {
+            $tempString = "";
+            //$separator = "";
+            foreach ($this->paramSearchParams as $key => $searchParam) {
+                //$tempString = $tempString . $separator . $searchParam->name .  $searchParam->operator . $searchParam->value;
+                //$separator = ",";
+                $retString = $this->addQueryParam($retString, $searchParam->name, $searchParam->value);
+            }
+            //$retString = $this->addQueryParam($retString, "params", $tempString);
         }
 
         return $retString;
