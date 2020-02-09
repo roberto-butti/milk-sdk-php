@@ -16,11 +16,13 @@ abstract class XyzClient
     protected $spaceId = "";
     private $method;
 
+
     private $cacheResponse = true;
 
     const API_PATH_SPACES = "/hub/spaces";
     const API_PATH_FEATURES = "/hub/spaces/{spaceId}/features";
     const API_PATH_FEATURE_DETAIL = "/hub/spaces/{spaceId}/features/{featureId}";
+    const API_PATH_FEATURE_SEARCH = "/hub/spaces/{spaceId}/search";
     const API_PATH_STATISTICS = "/hub/spaces/{spaceId}/statistics";
     const API_PATH_ITERATE = "/hub/spaces/{spaceId}/iterate";
     const API_PATH_SPACEDETAIL = "/hub/spaces/{spaceId}";
@@ -30,6 +32,7 @@ abstract class XyzClient
     protected const API_TYPE_SPACES = "SPACES";
     protected const API_TYPE_FEATURES = "FEATURES";
     protected const API_TYPE_FEATURE_DETAIL = "FEATURE_DETAIL";
+    protected const API_TYPE_FEATURE_SEARCH = "FEATURE_SEARCH";
     protected const API_TYPE_STATISTICS = "STATISTICS";
     protected const API_TYPE_ITERATE = "ITERATE";
     protected const API_TYPE_SPACEDETAIL = "SPACEDETAIL";
@@ -41,6 +44,7 @@ abstract class XyzClient
         self::API_TYPE_SPACES => self::API_PATH_SPACES,
         self::API_TYPE_FEATURES => self::API_PATH_FEATURES,
         self::API_TYPE_FEATURE_DETAIL => self::API_PATH_FEATURE_DETAIL,
+        self::API_TYPE_FEATURE_SEARCH => self::API_PATH_FEATURE_SEARCH,
         self::API_TYPE_STATISTICS => self::API_PATH_STATISTICS,
         self::API_TYPE_ITERATE => self::API_PATH_ITERATE,
         self::API_TYPE_SPACEDETAIL => self::API_PATH_SPACEDETAIL,

@@ -5,6 +5,8 @@ namespace Rbit\Milk\Xyz\Space;
 
 use Rbit\Milk\Xyz\Common\XyzConfig;
 use Rbit\Milk\Xyz\Space\XyzSpaceFeatureBase;
+use Rbit\Milk\Xyz\Common\XyzClient;
+use stdClass;
 
 /**
  * Class XyzSpaceFeature
@@ -55,6 +57,16 @@ class XyzSpaceFeature extends XyzSpaceFeatureBase
         $this->spaceId = $spaceId;
         $this->contentType = "application/geo+json";
         $this->setType(self::API_TYPE_FEATURES);
+        return $this;
+    }
+
+    public function search($spaceId): XyzSpaceFeature
+    {
+        $this->spaceId = $spaceId;
+        $this->httpGet();
+        $this->contentType = "application/geo+json";
+        $this->setType(self::API_TYPE_FEATURE_SEARCH);
+
         return $this;
     }
 
