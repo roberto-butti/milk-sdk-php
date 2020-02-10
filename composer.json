@@ -28,8 +28,9 @@
     },
     "require": {
         "php": ">=7.4.0",
-        "vlucas/phpdotenv": "^4.1",
-        "guzzlehttp/guzzle": "~6.0"
+        "guzzlehttp/guzzle": "~6.0",
+        "jmikola/geojson": "^1.0",
+        "vlucas/phpdotenv": "^4.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.0"
