@@ -8,7 +8,7 @@ $dotenv->load();
 
 $xyzToken = getenv('XYZ_ACCESS_TOKEN');
 $space = XyzSpace::instance($xyzToken);
-$result = $space->create("My Space", "DEscripton");
+$result = $space->create("My Space", "Descripton");
 
 $space->debug();
 $result =  json_decode($result->getBody());
