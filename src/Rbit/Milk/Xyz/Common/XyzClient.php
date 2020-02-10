@@ -23,6 +23,7 @@ abstract class XyzClient
     const API_PATH_FEATURES = "/hub/spaces/{spaceId}/features";
     const API_PATH_FEATURE_DETAIL = "/hub/spaces/{spaceId}/features/{featureId}";
     const API_PATH_FEATURE_SEARCH = "/hub/spaces/{spaceId}/search";
+    const API_PATH_FEATURE_CREATE = "/hub/spaces/{spaceId}/features";
     const API_PATH_STATISTICS = "/hub/spaces/{spaceId}/statistics";
     const API_PATH_ITERATE = "/hub/spaces/{spaceId}/iterate";
     const API_PATH_SPACEDETAIL = "/hub/spaces/{spaceId}";
@@ -33,8 +34,10 @@ abstract class XyzClient
     protected const API_TYPE_FEATURES = "FEATURES";
     protected const API_TYPE_FEATURE_DETAIL = "FEATURE_DETAIL";
     protected const API_TYPE_FEATURE_SEARCH = "FEATURE_SEARCH";
+    protected const API_TYPE_FEATURE_CREATE = "FEATURE_CREATE";
     protected const API_TYPE_STATISTICS = "STATISTICS";
     protected const API_TYPE_ITERATE = "ITERATE";
+
     protected const API_TYPE_SPACEDETAIL = "SPACEDETAIL";
     protected const API_TYPE_SPACECREATE = "SPACE_CREATE";
     protected const API_TYPE_SPACEUPDATE = "SPACE_UPDATE";
@@ -45,6 +48,7 @@ abstract class XyzClient
         self::API_TYPE_FEATURES => self::API_PATH_FEATURES,
         self::API_TYPE_FEATURE_DETAIL => self::API_PATH_FEATURE_DETAIL,
         self::API_TYPE_FEATURE_SEARCH => self::API_PATH_FEATURE_SEARCH,
+        self::API_TYPE_FEATURE_CREATE => self::API_PATH_FEATURE_CREATE,
         self::API_TYPE_STATISTICS => self::API_PATH_STATISTICS,
         self::API_TYPE_ITERATE => self::API_PATH_ITERATE,
         self::API_TYPE_SPACEDETAIL => self::API_PATH_SPACEDETAIL,
@@ -114,7 +118,7 @@ abstract class XyzClient
     }
 
     /**
-     * Set the HTTP Method for the endpoint ("GET", "POST", "DELETE", "PATCH")
+     * Set the HTTP Method for the endpoint ("GET", "POST", "DELETE", "PATCH", "PUT")
      * @param string $method
      * @return $this
      */
@@ -140,6 +144,15 @@ abstract class XyzClient
     public function httpPost()
     {
         return $this->method("POST");
+    }
+
+    /**
+     * Set the PUT method
+     * @return $this
+     */
+    public function httpPut()
+    {
+        return $this->method("PUT");
     }
 
     /**
@@ -266,6 +279,9 @@ abstract class XyzClient
         }
         if ($method === "PATCH") {
             $headers['Content-Type'] = "application/json";
+        }
+        if ($method === "PUT") {
+            $headers['Content-Type'] = "application/geo+json";
         }
         $requestOptions=[
             //'debug' => true,
