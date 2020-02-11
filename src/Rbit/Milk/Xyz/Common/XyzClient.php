@@ -11,6 +11,7 @@ abstract class XyzClient
 {
     protected XyzConfig $c;
     protected $uri;
+    protected $acceptContentType;
     protected $contentType;
     protected $requestBody = null;
     protected $spaceId = "";
@@ -24,6 +25,8 @@ abstract class XyzClient
     const API_PATH_FEATURE_DETAIL = "/hub/spaces/{spaceId}/features/{featureId}";
     const API_PATH_FEATURE_SEARCH = "/hub/spaces/{spaceId}/search";
     const API_PATH_FEATURE_CREATE = "/hub/spaces/{spaceId}/features";
+    const API_PATH_FEATURE_EDIT = "/hub/spaces/{spaceId}/features";
+
     const API_PATH_STATISTICS = "/hub/spaces/{spaceId}/statistics";
     const API_PATH_ITERATE = "/hub/spaces/{spaceId}/iterate";
     const API_PATH_SPACEDETAIL = "/hub/spaces/{spaceId}";
@@ -35,6 +38,8 @@ abstract class XyzClient
     protected const API_TYPE_FEATURE_DETAIL = "FEATURE_DETAIL";
     protected const API_TYPE_FEATURE_SEARCH = "FEATURE_SEARCH";
     protected const API_TYPE_FEATURE_CREATE = "FEATURE_CREATE";
+    protected const API_TYPE_FEATURE_EDIT = "FEATURE_EDIT";
+
     protected const API_TYPE_STATISTICS = "STATISTICS";
     protected const API_TYPE_ITERATE = "ITERATE";
 
@@ -49,6 +54,7 @@ abstract class XyzClient
         self::API_TYPE_FEATURE_DETAIL => self::API_PATH_FEATURE_DETAIL,
         self::API_TYPE_FEATURE_SEARCH => self::API_PATH_FEATURE_SEARCH,
         self::API_TYPE_FEATURE_CREATE => self::API_PATH_FEATURE_CREATE,
+        self::API_TYPE_FEATURE_EDIT => self::API_PATH_FEATURE_EDIT,
         self::API_TYPE_STATISTICS => self::API_PATH_STATISTICS,
         self::API_TYPE_ITERATE => self::API_PATH_ITERATE,
         self::API_TYPE_SPACEDETAIL => self::API_PATH_SPACEDETAIL,
@@ -83,7 +89,8 @@ abstract class XyzClient
         echo "URL    : " . $this->getUrl(). PHP_EOL;
         echo "METHOD : " . $this->method. PHP_EOL;
         echo "SPA ID : " . $this->spaceId. PHP_EOL;
-        echo "C TYPE : " . $this->contentType. PHP_EOL;
+        echo "ACCEPT : " . $this->acceptContentType. PHP_EOL;
+        echo "C TYPE : " . $this->contentType . PHP_EOL;
         echo "API    : " . $this->apiType. PHP_EOL;
         echo "TOKEN  : " . $this->c->getCredentials()->getAccessToken(). PHP_EOL;
         var_dump($this->requestBody);
@@ -99,6 +106,8 @@ abstract class XyzClient
     {
         $this->uri = "";
         $this->contentType = "application/json";
+        $this->acceptContentType = "application/json";
+
         $this->method = "GET";
         $this->apiType = self::API_TYPE_SPACES;
         $this->cacheResponse = true;
@@ -203,7 +212,7 @@ abstract class XyzClient
     {
         $res = false;
         try {
-            $res = $this->call($this->getUrl(), $this->contentType, $this->method, $this->requestBody);
+            $res = $this->call($this->getUrl(), $this->acceptContentType, $this->method, $this->requestBody, $this->contentType);
         } catch (RequestException $e) {
             if ($e->hasResponse()) {
                 $res = $e->getResponse();
@@ -226,7 +235,7 @@ abstract class XyzClient
     {
         //echo $this->getUrl() . PHP_EOL;
         if ($this->cacheResponse) {
-            $cache_tag = md5($this->getUrl() . $this->contentType . $this->method);
+            $cache_tag = md5($this->getUrl() . $this->acceptContentType . $this->method);
             $file_cache = "./cache/".$cache_tag;
             if (file_exists($file_cache)) {
                 $content = file_get_contents($file_cache);
@@ -265,23 +274,18 @@ abstract class XyzClient
     }
 
 
-    public function call($uri, $contentType= 'application/json', $method, $body = null)
+    public function call($uri, $acceptContentType = 'application/json', $method, $body = null, $contentType = "application/json")
     {
         $client = new Client();
 
         $headers = [
             'User-Agent' => 'milk-sdk-php/0.1.0',
-            'Accept'     => $contentType,
+            'Accept'     => $acceptContentType,
             'Authorization' => "Bearer {$this->c->getCredentials()->getAccessToken()}"
+
         ];
-        if ($method === "POST") {
-            $headers['Content-Type'] = "application/json";
-        }
-        if ($method === "PATCH") {
-            $headers['Content-Type'] = "application/json";
-        }
-        if ($method === "PUT") {
-            $headers['Content-Type'] = "application/geo+json";
+        if (in_array($method,  ["POST", "PATCH", "PUT"])) {
+            $headers['Content-Type'] = $contentType;
         }
         $requestOptions=[
             //'debug' => true,

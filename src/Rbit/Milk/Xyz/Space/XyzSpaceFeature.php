@@ -47,7 +47,7 @@ class XyzSpaceFeature extends XyzSpaceFeatureBase
     public function iterate($spaceId): XyzSpaceFeature
     {
         $this->spaceId = $spaceId;
-        $this->contentType = "application/geo+json";
+        $this->acceptContentType = "application/geo+json";
         $this->setType(self::API_TYPE_ITERATE);
         return $this;
     }
@@ -55,7 +55,7 @@ class XyzSpaceFeature extends XyzSpaceFeatureBase
     public function features($spaceId): XyzSpaceFeature
     {
         $this->spaceId = $spaceId;
-        $this->contentType = "application/geo+json";
+        $this->acceptContentType = "application/geo+json";
         $this->setType(self::API_TYPE_FEATURES);
         return $this;
     }
@@ -64,7 +64,7 @@ class XyzSpaceFeature extends XyzSpaceFeatureBase
     {
         $this->spaceId = $spaceId;
         $this->httpGet();
-        $this->contentType = "application/geo+json";
+        $this->acceptContentType = "application/geo+json";
         $this->setType(self::API_TYPE_FEATURE_SEARCH);
 
         return $this;
@@ -76,7 +76,7 @@ class XyzSpaceFeature extends XyzSpaceFeatureBase
             $this->spaceId = $spaceId;
         }
         $this->featureId = $featureId;
-        $this->contentType = "application/geo+json";
+        $this->acceptContentType = "application/geo+json";
         $this->setType(self::API_TYPE_FEATURE_DETAIL);
         return $this;
     }

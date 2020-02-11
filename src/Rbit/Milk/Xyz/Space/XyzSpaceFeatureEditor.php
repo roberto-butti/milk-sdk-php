@@ -54,8 +54,21 @@ class XyzSpaceFeatureEditor extends XyzSpaceFeatureBase
     {
         $this->httpPut();
         $this->spaceId = $spaceId;
+        $this->acceptContentType = "application/geo+json";
         $this->contentType = "application/geo+json";
         $this->setType(self::API_TYPE_FEATURE_CREATE);
+        $this->requestBody = $geojson;
+        return $this->getResponse();
+    }
+
+
+    public function edit($spaceId, $geojson)
+    {
+        $this->httpPost();
+        $this->spaceId = $spaceId;
+        $this->acceptContentType = "application/geo+json";
+        $this->contentType = "application/geo+json";
+        $this->setType(self::API_TYPE_FEATURE_EDIT);
         $this->requestBody = $geojson;
         return $this->getResponse();
     }

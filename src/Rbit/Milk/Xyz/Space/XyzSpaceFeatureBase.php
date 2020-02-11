@@ -54,6 +54,7 @@ abstract class XyzSpaceFeatureBase extends XyzClient
     public function reset()
     {
         parent::reset();
+        $this->acceptContentType = "application/geo+json";
         $this->contentType = "application/geo+json";
         $this->featureId = "";
         $this->spaceId = "";
