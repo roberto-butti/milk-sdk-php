@@ -14,6 +14,10 @@ use stdClass;
  */
 class XyzSpaceFeatureEditor extends XyzSpaceFeatureBase
 {
+
+    protected array $paramAddTags = [];
+    protected array $paramRemoveTags = [];
+
     public function __construct()
     {
         $this->reset();
@@ -42,6 +46,8 @@ class XyzSpaceFeatureEditor extends XyzSpaceFeatureBase
     public function reset()
     {
         parent::reset();
+        $this->paramAddTags = [];
+        $this->paramRemoveTags = [];
     }
 
     public function create($spaceId, $geojson)
@@ -52,6 +58,46 @@ class XyzSpaceFeatureEditor extends XyzSpaceFeatureBase
         $this->setType(self::API_TYPE_FEATURE_CREATE);
         $this->requestBody = $geojson;
         return $this->getResponse();
+    }
+
+    /**
+     * Set the tags for feature creation
+     * @param array $tags
+     * @return $this
+     */
+    public function addTags(array $tags): XyzSpaceFeatureEditor
+    {
+        $this->paramAddTags = $tags;
+        return $this;
+    }
+
+    /**
+     * Set the removing tags for feature editing
+     * @param array $tags
+     * @return $this
+     */
+    public function removeTags(array $tags): XyzSpaceFeatureEditor
+    {
+        $this->paramRemoveTags = $tags;
+        return $this;
+    }
+
+    protected function queryString(): string
+    {
+        $retString = "";
+        $retString = parent::queryString();
+
+        if (is_array($this->paramAddTags) && count($this->paramAddTags) > 0) {
+            $retString = $this->addQueryParam($retString, "addTags", implode(",", $this->paramAddTags));
+        }
+
+        if (is_array($this->paramRemoveTags) && count($this->paramRemoveTags) > 0) {
+            $retString = $this->addQueryParam($retString, "removeTags", implode(",", $this->paramRemoveTags));
+        }
+
+
+
+        return $retString;
     }
 
 

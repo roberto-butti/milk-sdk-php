@@ -17,7 +17,7 @@ $properties = [
     "name" => "Colosseo",
 ];
 $geoJson->addPoint(41.890251, 12.492373, $properties ,1);
-$result = $feature->create("eFM936rJ", $geoJson->getString());
+$result = $feature->addTags([ "milk"])->create("eFM936rJ", $geoJson->getString());
 
 $feature->debug();
 //$result =  json_decode($result->getBody());
