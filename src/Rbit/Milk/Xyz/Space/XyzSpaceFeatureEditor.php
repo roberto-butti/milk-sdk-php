@@ -17,6 +17,7 @@ class XyzSpaceFeatureEditor extends XyzSpaceFeatureBase
 
     protected array $paramAddTags = [];
     protected array $paramRemoveTags = [];
+    protected array $paramFeaturesIds = [];
 
     public function __construct()
     {
@@ -73,6 +74,18 @@ class XyzSpaceFeatureEditor extends XyzSpaceFeatureBase
         return $this->getResponse();
     }
 
+    public function delete($spaceId, array $featuresIds)
+    {
+        $this->httpDelete();
+        $this->spaceId = $spaceId;
+        $this->acceptContentType = "application/geo+json";
+        $this->contentType = "application/geo+json";
+        $this->paramFeaturesIds = $featuresIds;
+        $this->setType(self::API_TYPE_FEATURE_DELETE);
+        $this->requestBody = null;
+        return $this->getResponse();
+    }
+
     /**
      * Set the tags for feature creation
      * @param array $tags
@@ -107,6 +120,11 @@ class XyzSpaceFeatureEditor extends XyzSpaceFeatureBase
         if (is_array($this->paramRemoveTags) && count($this->paramRemoveTags) > 0) {
             $retString = $this->addQueryParam($retString, "removeTags", implode(",", $this->paramRemoveTags));
         }
+
+        if (is_array($this->paramFeaturesIds) && count($this->paramFeaturesIds) > 0) {
+            $retString = $this->addQueryParam($retString, "id", implode(",", $this->paramFeaturesIds));
+        }
+
 
 
 

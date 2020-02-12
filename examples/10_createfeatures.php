@@ -30,4 +30,10 @@ $properties = [
 ];
 $geoJson->addPoint(41.890251, 12.492373, $properties, "2");
 $result = $feature->addTags(["edit"])->edit("eFM936rJ", $geoJson->getString());
+
+
+$feature->reset();
+$result = $feature->delete("eFM936rJ", [1,2]);
 var_dump($result);
+$feature->debug();
+

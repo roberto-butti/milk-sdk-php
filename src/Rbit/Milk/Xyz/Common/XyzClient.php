@@ -26,6 +26,7 @@ abstract class XyzClient
     const API_PATH_FEATURE_SEARCH = "/hub/spaces/{spaceId}/search";
     const API_PATH_FEATURE_CREATE = "/hub/spaces/{spaceId}/features";
     const API_PATH_FEATURE_EDIT = "/hub/spaces/{spaceId}/features";
+    const API_PATH_FEATURE_DELETE = "/hub/spaces/{spaceId}/features";
 
     const API_PATH_STATISTICS = "/hub/spaces/{spaceId}/statistics";
     const API_PATH_ITERATE = "/hub/spaces/{spaceId}/iterate";
@@ -39,6 +40,7 @@ abstract class XyzClient
     protected const API_TYPE_FEATURE_SEARCH = "FEATURE_SEARCH";
     protected const API_TYPE_FEATURE_CREATE = "FEATURE_CREATE";
     protected const API_TYPE_FEATURE_EDIT = "FEATURE_EDIT";
+    protected const API_TYPE_FEATURE_DELETE = "FEATURE_DELETE";
 
     protected const API_TYPE_STATISTICS = "STATISTICS";
     protected const API_TYPE_ITERATE = "ITERATE";
@@ -55,6 +57,7 @@ abstract class XyzClient
         self::API_TYPE_FEATURE_SEARCH => self::API_PATH_FEATURE_SEARCH,
         self::API_TYPE_FEATURE_CREATE => self::API_PATH_FEATURE_CREATE,
         self::API_TYPE_FEATURE_EDIT => self::API_PATH_FEATURE_EDIT,
+        self::API_TYPE_FEATURE_DELETE => self::API_PATH_FEATURE_DELETE,
         self::API_TYPE_STATISTICS => self::API_PATH_STATISTICS,
         self::API_TYPE_ITERATE => self::API_PATH_ITERATE,
         self::API_TYPE_SPACEDETAIL => self::API_PATH_SPACEDETAIL,
@@ -284,7 +287,7 @@ abstract class XyzClient
             'Authorization' => "Bearer {$this->c->getCredentials()->getAccessToken()}"
 
         ];
-        if (in_array($method,  ["POST", "PATCH", "PUT"])) {
+        if (in_array($method,  ["POST", "PATCH", "PUT", "DELETE"])) {
             $headers['Content-Type'] = $contentType;
         }
         $requestOptions=[
