@@ -1,6 +1,6 @@
 # Milk SDK PHP
 
-[![Actions Status](https://github.com/roberto-butti/milk-sdk-php/workflows/PHP+Composer/badge.svg)](https://github.com/roberto-butti/milk-sdk-php/actions)
+[![Actions Status](https://github.com/roberto-butti/milk-sdk-php/workflows/PHP%20Composer/badge.svg)](https://github.com/roberto-butti/milk-sdk-php/actions)
 
 Milk SDK PHP is a (fluent) open-source PHP library that makes it easy to integrate your PHP application with location services like XYZ Hub API, Geocoder API, ...
 
