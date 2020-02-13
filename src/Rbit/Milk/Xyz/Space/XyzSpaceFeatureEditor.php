@@ -17,7 +17,7 @@ class XyzSpaceFeatureEditor extends XyzSpaceFeatureBase
 
     protected array $paramAddTags = [];
     protected array $paramRemoveTags = [];
-    protected array $paramFeaturesIds = [];
+
 
     public function __construct()
     {
@@ -49,6 +49,7 @@ class XyzSpaceFeatureEditor extends XyzSpaceFeatureBase
         parent::reset();
         $this->paramAddTags = [];
         $this->paramRemoveTags = [];
+
     }
 
     public function create($spaceId, $geojson)
@@ -80,8 +81,22 @@ class XyzSpaceFeatureEditor extends XyzSpaceFeatureBase
         $this->spaceId = $spaceId;
         $this->acceptContentType = "application/geo+json";
         $this->contentType = "application/geo+json";
-        $this->paramFeaturesIds = $featuresIds;
+        $this->paramFeatureIds = $featuresIds;
         $this->setType(self::API_TYPE_FEATURE_DELETE);
+        $this->requestBody = null;
+        return $this->getResponse();
+    }
+
+
+    public function deleteOne($spaceId, $featureId)
+    {
+        $this->httpDelete();
+        $this->spaceId = $spaceId;
+        $this->featureId = $featureId;
+        $this->acceptContentType = "application/json";
+        $this->contentType = "application/json";
+        $this->paramFeatureIds = [];
+        $this->setType(self::API_TYPE_FEATURE_DELETEONE);
         $this->requestBody = null;
         return $this->getResponse();
     }
@@ -119,10 +134,6 @@ class XyzSpaceFeatureEditor extends XyzSpaceFeatureBase
 
         if (is_array($this->paramRemoveTags) && count($this->paramRemoveTags) > 0) {
             $retString = $this->addQueryParam($retString, "removeTags", implode(",", $this->paramRemoveTags));
-        }
-
-        if (is_array($this->paramFeaturesIds) && count($this->paramFeaturesIds) > 0) {
-            $retString = $this->addQueryParam($retString, "id", implode(",", $this->paramFeaturesIds));
         }
 
 
