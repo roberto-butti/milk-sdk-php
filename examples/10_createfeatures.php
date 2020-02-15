@@ -42,11 +42,21 @@ $result = $feature->addTags(["edit"])->edit("eFM936rJ", $geoJson->getString());
 
 $feature = XyzSpaceFeatureEditor::instance($xyzToken);
 $result = $feature->delete("eFM936rJ", [1,2]);
-var_dump($result);
+//var_dump($result);
 $feature->debug();
 
 $feature = XyzSpaceFeatureEditor::instance($xyzToken);
-$result = $feature->deleteOne("eFM936rJ", "3");
-var_dump($result);
+//$result = $feature->deleteOne("eFM936rJ", "3");
+//var_dump($result);
 $feature->debug();
 
+$geoJson = new GeoJson();
+$properties = [
+    "name" => "Berlin",
+    "op" => "Patch"
+];
+$geoJson->addPoint(52.5165, 13.37809, $properties, "3");
+$feature = XyzSpaceFeatureEditor::instance($xyzToken);
+$result = $feature->feature($geoJson->get())->editOne("eFM936rJ", "3");
+$feature->debug();
+var_dump($result);

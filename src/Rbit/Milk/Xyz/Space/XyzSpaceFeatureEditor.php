@@ -102,6 +102,21 @@ class XyzSpaceFeatureEditor extends XyzSpaceFeatureBase
     }
 
     /**
+     * Edit / patch a feature
+     * https://xyz.api.here.com/hub/static/swagger/#/Edit%20Features/patchFeature
+     */
+    public function editOne($spaceId, $featureId)
+    {
+        $this->httpPatch();
+        $this->spaceId = $spaceId;
+        $this->featureId = $featureId;
+        $this->acceptContentType = "application/geo+json";
+        $this->contentType = "application/geo+json";
+        $this->setType(self::API_TYPE_FEATURE_EDITONE);
+        return $this->getResponse();
+    }
+
+    /**
      * Set the tags for feature creation
      * @param array $tags
      * @return $this
@@ -120,6 +135,12 @@ class XyzSpaceFeatureEditor extends XyzSpaceFeatureBase
     public function removeTags(array $tags): XyzSpaceFeatureEditor
     {
         $this->paramRemoveTags = $tags;
+        return $this;
+    }
+
+    public function feature( string $body ): XyzSpaceFeatureEditor
+    {
+        $this->requestBody = $body;
         return $this;
     }
 

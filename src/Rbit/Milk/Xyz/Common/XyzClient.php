@@ -28,6 +28,7 @@ abstract class XyzClient
     const API_PATH_FEATURE_EDIT = "/hub/spaces/{spaceId}/features";
     const API_PATH_FEATURE_DELETE = "/hub/spaces/{spaceId}/features";
     const API_PATH_FEATURE_DELETEONE = "/hub/spaces/{spaceId}/features/{featureId}";
+    const API_PATH_FEATURE_EDITONE = "/hub/spaces/{spaceId}/features/{featureId}";
 
     const API_PATH_STATISTICS = "/hub/spaces/{spaceId}/statistics";
     const API_PATH_ITERATE = "/hub/spaces/{spaceId}/iterate";
@@ -43,6 +44,7 @@ abstract class XyzClient
     protected const API_TYPE_FEATURE_EDIT = "FEATURE_EDIT";
     protected const API_TYPE_FEATURE_DELETE = "FEATURE_DELETE";
     protected const API_TYPE_FEATURE_DELETEONE = "FEATURE_DELETE_ONE";
+    protected const API_TYPE_FEATURE_EDITONE = "FEATURE_EDIT_ONE";
 
     protected const API_TYPE_STATISTICS = "STATISTICS";
     protected const API_TYPE_ITERATE = "ITERATE";
@@ -61,6 +63,8 @@ abstract class XyzClient
         self::API_TYPE_FEATURE_EDIT => self::API_PATH_FEATURE_EDIT,
         self::API_TYPE_FEATURE_DELETE => self::API_PATH_FEATURE_DELETE,
         self::API_TYPE_FEATURE_DELETEONE => self::API_PATH_FEATURE_DELETEONE,
+        self::API_TYPE_FEATURE_EDITONE => self::API_PATH_FEATURE_EDITONE,
+
         self::API_TYPE_STATISTICS => self::API_PATH_STATISTICS,
         self::API_TYPE_ITERATE => self::API_PATH_ITERATE,
         self::API_TYPE_SPACEDETAIL => self::API_PATH_SPACEDETAIL,

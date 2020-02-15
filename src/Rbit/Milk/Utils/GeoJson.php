@@ -18,4 +18,12 @@ class GeoJson
         return json_encode($fs);
     }
 
+    public function get($idx = 0 , $jsonEncoded = true) {
+        $item = $this->featureCollection[$idx];
+        if ($jsonEncoded) {
+            return json_encode($item);
+        }
+        return $item;
+    }
+
 }
