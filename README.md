@@ -49,8 +49,8 @@ use Rbit\Milk\Xyz\Space\XyzSpace;
 Dotenv\Dotenv::createImmutable(__DIR__)->load();
 // get your Token
 $xyzToken = getenv("XYZ_ACCESS_TOKEN");
-// Ggt your XYZ Spaces
-$s = XyzSpace::setToken($xyzToken)->get();
+// Get your XYZ Spaces
+$s = XyzSpace::instance($xyzToken)->get();
 // display your result
 var_dump($s);
 ```
@@ -121,6 +121,25 @@ You need to use feature() method with $featureId and $spaceId
 ```php
 $xyzSpaceFeature = XyzSpaceFeature::instance($xyzToken);
 $result = $xyzSpaceFeature->feature($featureId, $spaceId)->get();
+```
+
+### Create or Edit 1 Feature
+
+To create or edit a Feature you can use saveOne() method.
+
+
+```php
+$spaceId = "yourspaceid";
+$featureId = "yourfeatureid";
+$geoJson = new GeoJson();
+$properties = [
+    "name" => "Berlin",
+    "op" => "Put"
+];
+$geoJson->addPoint(52.5165, 13.37809, $properties, $featureId);
+$feature = XyzSpaceFeatureEditor::instance($xyzToken);
+$result = $feature->feature($geoJson->get())->saveOne($spaceId, $featureId);
+$feature->debug();
 ```
 
 ## Useful reference
