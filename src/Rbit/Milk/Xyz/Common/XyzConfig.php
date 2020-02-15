@@ -11,6 +11,7 @@ class XyzConfig
 
     private const ENV_PROD = "PRD";
     private const ENV_STAGE = "STAGE";
+    private const ENV_CUSTOM = "CUSTOM";
     private const ENV_NONE = "";
     private const HOST_PROD = "https://xyz.api.here.com";
     private const HOST_STAGE = "https://xyz.cit.api.here.com";
@@ -28,18 +29,24 @@ class XyzConfig
         return $this->hostname;
     }
 
-    public function setEnvironment($environemnt = self::ENV_PROD):bool
+    public function setEnvironment($environment = self::ENV_CUSTOM):bool
     {
         $retVal = false;
+        $this->environment = $environment;
         if ($this->environment === self::ENV_PROD) {
             $this->hostname = self::HOST_PROD;
             $retVal = true;
         } elseif ($this->environment === self::ENV_STAGE) {
             $this->hostname = self::HOST_STAGE;
             $retVal = true;
+        } elseif ($this->environment === self::ENV_CUSTOM) {
+            $this->hostname = getenv("XYZ_API_HOSTNAME") ?: self::HOST_PROD;
+            $retVal = true;
         } else {
             $this->hostname = self::HOST_NONE;
         }
+
+
         return $retVal;
     }
 
@@ -51,14 +58,14 @@ class XyzConfig
         return $this->credentials;
     }
 
-    private function __construct($xyzToken = "", $env = self::ENV_PROD)
+    private function __construct($xyzToken = "", $env = self::ENV_CUSTOM)
     {
         // Setting things:
         $this->setEnvironment($env);
         $this->credentials = XyzCredentials::token($xyzToken);
     }
 
-    public static function getInstance($xyzToken = "", $env = self::HOST_PROD)
+    public static function getInstance($xyzToken = "", $env = self::ENV_CUSTOM)
     {
         if (self::$instance == null) {
             self::$instance = new XyzConfig($xyzToken, $env);

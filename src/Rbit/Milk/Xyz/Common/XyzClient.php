@@ -10,15 +10,13 @@ use GuzzleHttp\Exception\RequestException;
 abstract class XyzClient
 {
     protected XyzConfig $c;
-    protected $uri;
-    protected $acceptContentType;
-    protected $contentType;
-    protected $requestBody = null;
-    protected $spaceId = "";
-    private $method;
-
-
-    private $cacheResponse = true;
+    protected string $uri;
+    protected string $acceptContentType;
+    protected string $contentType;
+    protected $requestBody;
+    protected string $spaceId;
+    private string $method;
+    private bool $cacheResponse;
 
     const API_PATH_SPACES = "/hub/spaces";
     const API_PATH_FEATURES = "/hub/spaces/{spaceId}/features";
@@ -119,10 +117,9 @@ abstract class XyzClient
         $this->uri = "";
         $this->contentType = "application/json";
         $this->acceptContentType = "application/json";
-
         $this->method = "GET";
         $this->apiType = self::API_TYPE_SPACES;
-        $this->cacheResponse = true;
+        $this->cacheResponse = false;
         $this->requestBody = null;
     }
 
@@ -293,12 +290,14 @@ abstract class XyzClient
         $headers = [
             'User-Agent' => 'milk-sdk-php/0.1.0',
             'Accept'     => $acceptContentType,
-            'Authorization' => "Bearer {$this->c->getCredentials()->getAccessToken()}"
-
         ];
+        if ($this->c->getCredentials()->getAccessToken() != "") {
+            $headers['Authorization'] = "Bearer {$this->c->getCredentials()->getAccessToken()}";
+        }
         if (in_array($method,  ["POST", "PATCH", "PUT", "DELETE"])) {
             $headers['Content-Type'] = $contentType;
         }
+
         $requestOptions=[
             //'debug' => true,
             'headers' => $headers
@@ -306,6 +305,7 @@ abstract class XyzClient
         if (! is_null($body)) {
             $requestOptions["body"] = $body;
         }
+
 
 
         $res = $client->request($method, $this->getUrl(), $requestOptions);

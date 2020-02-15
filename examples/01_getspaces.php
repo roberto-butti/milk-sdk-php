@@ -16,7 +16,11 @@ function print_row($item, $key)
 $space = XyzSpace::instance($xyzToken);
 echo "GET" . PHP_EOL;
 $s = $space->get();
+var_dump($s);
+echo $space->getUrl();
+$space->debug();
 array_walk($s, 'print_row');
+
 echo "GET OWNER ALL" . PHP_EOL;
 $space->reset();
 $s =  $space->ownerAll()->getLimited(2);
@@ -34,3 +38,4 @@ $space->reset();
 $s =  $space->ownerOthers()->includeRights()->getLimited(2);
 array_walk($s, 'print_row');
 $space->debug();
+
