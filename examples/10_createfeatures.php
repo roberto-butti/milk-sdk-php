@@ -60,3 +60,15 @@ $feature = XyzSpaceFeatureEditor::instance($xyzToken);
 $result = $feature->feature($geoJson->get())->editOne("eFM936rJ", "3");
 $feature->debug();
 var_dump($result);
+
+
+$geoJson = new GeoJson();
+$properties = [
+    "name" => "Berlin",
+    "op" => "Put"
+];
+$geoJson->addPoint(52.5165, 13.37809, $properties, "3");
+$feature = XyzSpaceFeatureEditor::instance($xyzToken);
+$result = $feature->feature($geoJson->get())->saveOne("eFM936rJ", "3");
+$feature->debug();
+var_dump($result);

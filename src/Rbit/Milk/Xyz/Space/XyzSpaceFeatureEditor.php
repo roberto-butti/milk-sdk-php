@@ -116,6 +116,22 @@ class XyzSpaceFeatureEditor extends XyzSpaceFeatureBase
         return $this->getResponse();
     }
 
+
+    /**
+     * Create or Edit a feature
+     * https://xyz.api.here.com/hub/static/swagger/#/Edit%20Features/putFeature
+     */
+    public function saveOne($spaceId, $featureId)
+    {
+        $this->httpPut();
+        $this->spaceId = $spaceId;
+        $this->featureId = $featureId;
+        $this->acceptContentType = "application/geo+json";
+        $this->contentType = "application/geo+json";
+        $this->setType(self::API_TYPE_FEATURE_CREATEEDITONE);
+        return $this->getResponse();
+    }
+
     /**
      * Set the tags for feature creation
      * @param array $tags
