@@ -14,12 +14,33 @@ In your PHP project install package via composer:
 ```sh
 composer require rbit/milk-sdk-php
 ```
+### Configuring XYZ HUB
 
-### Obtain Access Token
+With this SDK you can consume XYZ API.
+You have 2 options:
+- use an your own instance of XYZ HUB
+or
+- use XYZ HUB Cloud
 
-Obtain your ACCESS TOKEN from https://developer.here.com/
+#### Configure SDK with your own instance of XYZ HUB
 
-Create a _.env_ file. You can start from a sample file (_.env.dist_):
+Running your own instance of XYZ HUB means that you already have your instance of https://github.com/heremaps/xyz-hub.
+
+Create a _.env_ file.
+Fill it with:
+
+```
+XYZ_ACCESS_TOKEN=""
+XYZ_API_HOSTNAME="http://localhost:8080"
+```
+
+#### Configure SDK with XYZ HUB Cloud service
+
+Using XYZ HUB Cloud Service means that you are using this host https://xyz.api.here.com.
+
+To use this service you need to sign in as developer on https://developer.here.com/ and create your plan (for exampole Feemium) and obtain your Access Token.
+
+Once you have your access token, create a _.env_ file. You can start from a sample file (_.env.dist_):
 
 ```sh
 cp .env.dist .env
