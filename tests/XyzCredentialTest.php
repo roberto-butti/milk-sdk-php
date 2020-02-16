@@ -5,6 +5,12 @@ use Rbit\Milk\Xyz\Common\XyzCredentials;
 
 class XyzCredentialTest extends TestCase
 {
+
+    public function setUp()
+    {
+        Dotenv\Dotenv::createImmutable(__DIR__ . "/../")->load();
+    }
+
     public function testLoadAccessToken()
     {
         /** @var Dotenv\Dotenv $dotenv */

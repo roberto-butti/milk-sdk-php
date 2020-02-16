@@ -298,6 +298,7 @@ abstract class XyzClient
             $headers['Content-Type'] = $contentType;
         }
 
+
         $requestOptions=[
             //'debug' => true,
             'headers' => $headers
@@ -305,8 +306,6 @@ abstract class XyzClient
         if (! is_null($body)) {
             $requestOptions["body"] = $body;
         }
-
-
 
         $res = $client->request($method, $this->getUrl(), $requestOptions);
         //echo $res->getStatusCode();
