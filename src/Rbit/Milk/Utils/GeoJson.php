@@ -8,7 +8,7 @@ class GeoJson
 
 
     public function addPoint($latitude, $longitude, $properties = null, $id = null) {
-        $point = new \GeoJson\Geometry\Point([$latitude, $longitude]);
+        $point = new \GeoJson\Geometry\Point([ $longitude , $latitude]);
         $f = new \GeoJson\Feature\Feature($point, $properties, $id);
         $this->featureCollection[] = $f;
     }

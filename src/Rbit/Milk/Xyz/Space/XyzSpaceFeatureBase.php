@@ -21,6 +21,10 @@ abstract class XyzSpaceFeatureBase extends XyzClient
     protected string $paramHandle = "";
     private array $paramTags = [];
     private array $paramSearchParams = [];
+    protected ?float $paramLatitude = null;
+    protected ?float $paramLongitude = null;
+    protected ?int $paramRadius = null;
+
 
 
 
@@ -63,6 +67,10 @@ abstract class XyzSpaceFeatureBase extends XyzClient
         $this->paramSkipCache = false;
         $this->paramHandle = "";
         $this->paramFeatureIds = [];
+        $this->paramLatitude = null;
+        $this->paramLongitude = null;
+        $this->paramRadius = null;
+        $this->paramSearchParams = [];
     }
 
     /******************************************************
@@ -157,6 +165,21 @@ abstract class XyzSpaceFeatureBase extends XyzClient
         return $this;
     }
 
+    public function latlon($latitude, $longitude): XyzSpaceFeatureBase
+    {
+        $this->paramLatitude = $latitude;
+        $this->paramLongitude = $longitude;
+        return $this;
+    }
+
+    public function radius($radius): XyzSpaceFeatureBase
+    {
+        $this->paramRadius = $radius;
+        return $this;
+    }
+
+
+
     /**
      * Clean search params list
      * @param array $tags
@@ -213,6 +236,17 @@ abstract class XyzSpaceFeatureBase extends XyzClient
         if (is_array($this->paramTags) && count($this->paramTags) > 0) {
             $retString = $this->addQueryParam($retString, "tags", implode(",", $this->paramTags));
         }
+
+        if ($this->paramLatitude) {
+            $retString = $this->addQueryParam($retString, "lat", $this->paramLatitude);
+        }
+        if ($this->paramLongitude) {
+            $retString = $this->addQueryParam($retString, "lon", $this->paramLongitude);
+        }
+        if ($this->paramRadius) {
+            $retString = $this->addQueryParam($retString, "radius", $this->paramRadius);
+        }
+
 
         if (is_array($this->paramSearchParams) && count($this->paramSearchParams) > 0) {
             $tempString = "";

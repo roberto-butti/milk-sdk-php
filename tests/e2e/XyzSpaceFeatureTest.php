@@ -127,4 +127,19 @@ class XyzSpaceFeatureTest extends TestCase
 
     }
 
+    public function testSearchSpace()
+    {
+        $xyzSpaceFeature = self::$spaceFeature->addSearchParams("p.name", "Colosseo");
+        $result = $xyzSpaceFeature->search(self::$spaceId)->get();
+        $this->assertEquals(1, count($result->features) , "Search and find 1 feature");
+
+        self::$spaceFeature->reset();
+        $result = self::$spaceFeature->iterate(self::$spaceId)->get();
+        self::$spaceFeature->reset();
+        $result = self::$spaceFeature->spatial(self::$spaceId,  41.890251, 12.492373,  1000)->get();
+        $this->assertEquals(1, count($result->features), "Search Spatial and find 1 feature");
+
+
+    }
+
 }

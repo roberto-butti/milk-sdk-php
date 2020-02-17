@@ -164,6 +164,25 @@ $result = $feature->feature($geoJson->get())->saveOne($spaceId, $featureId);
 $feature->debug();
 ```
 
+
+### Search features by property
+
+To search features by properties you can use *addSearchParams* to add serach params, in the example below, you are searching features with *name* property equals "Colosseo".
+
+```php
+$spaceId = "yourspaceid";
+$xyzSpaceFeature = XyzSpaceFeatureEditor::instance($xyzToken)->addSearchParams("p.name", "Colosseo");
+$result = $xyzSpaceFeature->search($spaceId)->get();
+```
+### Search features by proximity
+
+To search feature close to latitude=41.890251 and longitude=12.492373 with a radius less than 1000 meters (close to Colosseum):
+
+```php
+$spaceId = "yourspaceid";
+$result = XyzSpaceFeatureEditor::instance($xyzToken)->spatial($spaceId,  41.890251, 12.492373,  1000)->get();
+```
+
 ## Useful reference
 
 ReDoc API documentation:
