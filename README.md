@@ -25,6 +25,7 @@ or
 #### Configure SDK with your own instance of XYZ HUB
 
 Running your own instance of XYZ HUB means that you already have your instance of https://github.com/heremaps/xyz-hub.
+A tutorial about how to setup XYZ Hub locally (on localhost): https://dev.to/robertobutti/restful-web-service-for-geospatial-data-12ii
 
 Create a _.env_ file.
 Fill it with:
