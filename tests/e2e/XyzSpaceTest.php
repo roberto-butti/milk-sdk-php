@@ -29,7 +29,7 @@ class XyzSpaceTest extends TestCase
 
     public static function tearDownAfterClass(): void
     {
-
+        $response = self::$space->delete(self::$spaceId);
     }
 
     protected  function setUp(): void
