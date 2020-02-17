@@ -73,9 +73,16 @@ class XyzSpaceFeature extends XyzSpaceFeatureBase
     public function spatial($spaceId, $latitude = null, $longitude=null, $radius = null): XyzSpaceFeature
     {
         $this->spaceId = $spaceId;
-        $this->paramLatitude = ($latitude !== null)? $latitude : null;
-        $this->paramLongitude = ($longitude !== null) ? $longitude : null ;
-        $this->paramRadius = ($radius !== null) ? $radius : null;
+        if (! is_null($latitude)) {
+            $this->paramLatitude = $latitude;
+        }
+        if (!is_null($longitude)) {
+            $this->paramLongitude = $longitude;
+        }
+        if (!is_null($radius)) {
+            $this->paramRadius = $radius;
+        }
+
         $this->httpGet();
         $this->acceptContentType = "application/geo+json";
         $this->setType(self::API_TYPE_FEATURE_GETSPATIAL);

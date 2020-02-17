@@ -139,6 +139,17 @@ class XyzSpaceFeatureTest extends TestCase
         $result = self::$spaceFeature->spatial(self::$spaceId,  41.890251, 12.492373,  1000)->get();
         $this->assertEquals(1, count($result->features), "Search Spatial and find 1 feature");
 
+        self::$spaceFeature->reset();
+
+        $result = self::$spaceFeature
+            ->latlon(41.890251, 12.492373)
+            ->radius(1000)
+            ->spatial(self::$spaceId)
+            ->get();
+
+
+
+        $this->assertEquals(1, count($result->features), "Search Spatial and find 1 feature");
 
     }
 
