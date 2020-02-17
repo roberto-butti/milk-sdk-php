@@ -164,6 +164,17 @@ $result = $feature->feature($geoJson->get())->saveOne($spaceId, $featureId);
 $feature->debug();
 ```
 
+
+### Search features by property
+
+To search features by properties you can use *addSearchParams* to add serach params, in the example below, you are searching features with *name* property equals "Colosseo".
+
+```php
+$spaceId = "yourspaceid";
+$xyzSpaceFeature = XyzSpaceFeatureEditor::instance($xyzToken)->addSearchParams("p.name", "Colosseo");
+$result = $xyzSpaceFeature->search($spaceId)->get();
+```
+
 ## Useful reference
 
 ReDoc API documentation:
