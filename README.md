@@ -171,7 +171,7 @@ To search features by properties you can use *addSearchParams* to add serach par
 
 ```php
 $spaceId = "yourspaceid";
-$xyzSpaceFeature = XyzSpaceFeatureEditor::instance($xyzToken)->addSearchParams("p.name", "Colosseo");
+$xyzSpaceFeature = XyzSpaceFeature::instance($xyzToken)->addSearchParams("p.name", "Colosseo");
 $result = $xyzSpaceFeature->search($spaceId)->get();
 ```
 ### Search features by proximity
@@ -180,7 +180,7 @@ To search feature close to latitude=41.890251 and longitude=12.492373 with a rad
 
 ```php
 $spaceId = "yourspaceid";
-$result = XyzSpaceFeatureEditor::instance($xyzToken)->spatial($spaceId,  41.890251, 12.492373,  1000)->get();
+$result = XyzSpaceFeature::instance($xyzToken)->spatial($spaceId,  41.890251, 12.492373,  1000)->get();
 ```
 
 ## Useful reference
