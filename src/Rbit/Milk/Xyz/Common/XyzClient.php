@@ -22,6 +22,7 @@ abstract class XyzClient
     const API_PATH_FEATURES = "/hub/spaces/{spaceId}/features";
     const API_PATH_FEATURE_DETAIL = "/hub/spaces/{spaceId}/features/{featureId}";
     const API_PATH_FEATURE_SEARCH = "/hub/spaces/{spaceId}/search";
+    const API_PATH_FEATURE_GETSPATIAL = "/hub/spaces/{spaceId}/spatial";
     const API_PATH_FEATURE_CREATE = "/hub/spaces/{spaceId}/features";
     const API_PATH_FEATURE_EDIT = "/hub/spaces/{spaceId}/features";
     const API_PATH_FEATURE_DELETE = "/hub/spaces/{spaceId}/features";
@@ -34,10 +35,12 @@ abstract class XyzClient
     const API_PATH_SPACEUPDATE = "/hub/spaces/{spaceId}";
     const API_PATH_SPACEDELETE = "/hub/spaces/{spaceId}";
 
+
     protected const API_TYPE_SPACES = "SPACES";
     protected const API_TYPE_FEATURES = "FEATURES";
     protected const API_TYPE_FEATURE_DETAIL = "FEATURE_DETAIL";
     protected const API_TYPE_FEATURE_SEARCH = "FEATURE_SEARCH";
+    protected const API_TYPE_FEATURE_GETSPATIAL = "FEATURE_GETSPATIAL";
     protected const API_TYPE_FEATURE_CREATE = "FEATURE_CREATE";
     protected const API_TYPE_FEATURE_EDIT = "FEATURE_EDIT";
     protected const API_TYPE_FEATURE_DELETE = "FEATURE_DELETE";
@@ -58,6 +61,7 @@ abstract class XyzClient
         self::API_TYPE_FEATURES => self::API_PATH_FEATURES,
         self::API_TYPE_FEATURE_DETAIL => self::API_PATH_FEATURE_DETAIL,
         self::API_TYPE_FEATURE_SEARCH => self::API_PATH_FEATURE_SEARCH,
+        self::API_TYPE_FEATURE_GETSPATIAL => self::API_PATH_FEATURE_GETSPATIAL,
         self::API_TYPE_FEATURE_CREATE => self::API_PATH_FEATURE_CREATE,
         self::API_TYPE_FEATURE_EDIT => self::API_PATH_FEATURE_EDIT,
         self::API_TYPE_FEATURE_DELETE => self::API_PATH_FEATURE_DELETE,

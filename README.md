@@ -174,6 +174,14 @@ $spaceId = "yourspaceid";
 $xyzSpaceFeature = XyzSpaceFeatureEditor::instance($xyzToken)->addSearchParams("p.name", "Colosseo");
 $result = $xyzSpaceFeature->search($spaceId)->get();
 ```
+### Search features by proximity
+
+To search feature close to latitude=41.890251 and longitude=12.492373 with a radius less than 1000 meters (close to Colosseum):
+
+```php
+$spaceId = "yourspaceid";
+$result = XyzSpaceFeatureEditor::instance($xyzToken)->spatial($spaceId,  41.890251, 12.492373,  1000)->get();
+```
 
 ## Useful reference
 

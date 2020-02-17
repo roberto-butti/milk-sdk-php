@@ -70,6 +70,19 @@ class XyzSpaceFeature extends XyzSpaceFeatureBase
         return $this;
     }
 
+    public function spatial($spaceId, $latitude = null, $longitude=null, $radius = null): XyzSpaceFeature
+    {
+        $this->spaceId = $spaceId;
+        $this->paramLatitude = ($latitude !== null)? $latitude : null;
+        $this->paramLongitude = ($longitude !== null) ? $longitude : null ;
+        $this->paramRadius = ($radius !== null) ? $radius : null;
+        $this->httpGet();
+        $this->acceptContentType = "application/geo+json";
+        $this->setType(self::API_TYPE_FEATURE_GETSPATIAL);
+
+        return $this;
+    }
+
     public function feature($featureId, $spaceId= ""): XyzSpaceFeature
     {
         if ($spaceId !== "") {
