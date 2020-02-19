@@ -164,6 +164,18 @@ $result = $feature->feature($geoJson->get())->saveOne($spaceId, $featureId);
 $feature->debug();
 ```
 
+### Create multiple features from a geojson file
+
+If you have a Geojson File, you can upload it into a space.
+
+```php
+$spaceId = "yourspaceid";
+$file = __DIR__ . "./../fixtures/subway_stations.geojson";
+$response = XyzSpaceFeatureEditor::instance($xyzToken)
+    ->addTags(["file"])
+    ->geojson($file)
+    ->create($spaceId);
+```
 
 ### Search features by property
 

@@ -17,6 +17,7 @@ abstract class XyzClient
     protected string $spaceId;
     private string $method;
     private bool $cacheResponse;
+    protected ?string $geojsonFile;
 
     const API_PATH_SPACES = "/hub/spaces";
     const API_PATH_FEATURES = "/hub/spaces/{spaceId}/features";
@@ -107,6 +108,7 @@ abstract class XyzClient
         echo "C TYPE : " . $this->contentType . PHP_EOL;
         echo "API    : " . $this->apiType. PHP_EOL;
         echo "TOKEN  : " . $this->c->getCredentials()->getAccessToken(). PHP_EOL;
+        echo "GEOJSON: " . $this->geojsonFile;
         var_dump($this->requestBody);
         echo "=========" . PHP_EOL;
     }
@@ -125,6 +127,7 @@ abstract class XyzClient
         $this->apiType = self::API_TYPE_SPACES;
         $this->cacheResponse = false;
         $this->requestBody = null;
+        $this->geojsonFile = null;
     }
 
     /**
@@ -309,6 +312,11 @@ abstract class XyzClient
         ];
         if (! is_null($body)) {
             $requestOptions["body"] = $body;
+        } else {
+
+            if (! is_null($this->geojsonFile)) {
+                $requestOptions["body"] = file_get_contents($this->geojsonFile);
+            }
         }
 
         $res = $client->request($method, $this->getUrl(), $requestOptions);

@@ -52,14 +52,16 @@ class XyzSpaceFeatureEditor extends XyzSpaceFeatureBase
 
     }
 
-    public function create($spaceId, $geojson)
+    public function create($spaceId, $geojson = null)
     {
         $this->httpPut();
         $this->spaceId = $spaceId;
         $this->acceptContentType = "application/geo+json";
         $this->contentType = "application/geo+json";
         $this->setType(self::API_TYPE_FEATURE_CREATE);
-        $this->requestBody = $geojson;
+        if (! is_null($geojson)) {
+            $this->requestBody = $geojson;
+        }
         return $this->getResponse();
     }
 
@@ -159,6 +161,13 @@ class XyzSpaceFeatureEditor extends XyzSpaceFeatureBase
         $this->requestBody = $body;
         return $this;
     }
+
+    public function geojson(string $file): XyzSpaceFeatureEditor
+    {
+        $this->geojsonFile = $file;
+        return $this;
+    }
+
 
     protected function queryString(): string
     {

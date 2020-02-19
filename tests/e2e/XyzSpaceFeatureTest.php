@@ -121,4 +121,22 @@ class XyzSpaceFeatureTest extends TestCase
         $this->assertEquals(1, count($result->features), "Search Spatial and find 1 feature");
     }
 
+    public function testReadGeojsonfileAndCreate()
+    {
+        //$file = __DIR__."./../fixtures/points_40000_worldwide.geojson";
+        $file = __DIR__ . "./../fixtures/subway_stations.geojson";
+
+        $response = self::$spaceFeatureEditor
+            ->addTags(["file"])
+            ->geojson($file)
+            ->create(self::$spaceId);
+
+        //var_dump($response);
+        $xyzSpaceFeature = self::$spaceFeature->skipCache()->iterate(self::$spaceId)->get();
+        $this->assertEquals("FeatureCollection", $xyzSpaceFeature->type, "Check FeatureCollection");
+        $this->assertIsArray($xyzSpaceFeature->features, "Check Features");
+        $this->assertGreaterThan(100, count($xyzSpaceFeature->features), "Check lenght Features");
+
+    }
+
 }
