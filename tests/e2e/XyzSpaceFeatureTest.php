@@ -123,9 +123,8 @@ class XyzSpaceFeatureTest extends TestCase
 
     public function testReadGeojsonfileAndCreate()
     {
-        //$file = __DIR__."./../fixtures/points_40000_worldwide.geojson";
-        $file = __DIR__ . "./../fixtures/subway_stations.geojson";
 
+        $file = __DIR__ . "./../fixtures/subway_stations.geojson";
         $response = self::$spaceFeatureEditor
             ->addTags(["file"])
             ->geojson($file)
