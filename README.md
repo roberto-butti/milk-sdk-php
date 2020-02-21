@@ -170,7 +170,7 @@ If you have a Geojson File, you can upload it into a space.
 
 ```php
 $spaceId = "yourspaceid";
-$file = __DIR__ . "./../fixtures/subway_stations.geojson";
+$file = "https://data.cityofnewyork.us/api/geospatial/arq3-7z49?method=export&format=GeoJSON";
 $response = XyzSpaceFeatureEditor::instance($xyzToken)
     ->addTags(["file"])
     ->geojson($file)

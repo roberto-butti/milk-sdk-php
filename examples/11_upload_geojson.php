@@ -18,7 +18,12 @@ $response = $space->create($spaceTitle, $spaceDescription);
 $jsonResponse =  json_decode($response->getBody());
 $spaceId = $jsonResponse->id;
 
-$file = __DIR__. "/../tests/fixtures/subway_stations.geojson";
-$result = $feature->addTags(["geojson"])->geojson($file)->create($spaceId);
-var_dump($result);
+//$file = __DIR__. "/../tests/fixtures/subway_stations.geojson";
+$file = "https://data.cityofnewyork.us/api/geospatial/arq3-7z49?method=export&format=GeoJSON";
+
+$result = $feature
+            ->addTags(["geojson"])
+            ->geojson($file)
+            ->create($spaceId);
+
 $feature->debug();
