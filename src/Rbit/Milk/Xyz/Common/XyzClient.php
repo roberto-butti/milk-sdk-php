@@ -108,7 +108,7 @@ abstract class XyzClient
         echo "C TYPE : " . $this->contentType . PHP_EOL;
         echo "API    : " . $this->apiType. PHP_EOL;
         echo "TOKEN  : " . $this->c->getCredentials()->getAccessToken(). PHP_EOL;
-        echo "GEOJSON: " . $this->geojsonFile;
+        echo "GEOJSON: " . $this->geojsonFile. PHP_EOL;
         var_dump($this->requestBody);
         echo "=========" . PHP_EOL;
     }
