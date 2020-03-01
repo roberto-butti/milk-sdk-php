@@ -180,7 +180,7 @@ abstract class ApiClient
     public function getJson(): string
     {
         //echo $this->getUrl() . PHP_EOL;
-        echo "---".$this->getResponse()->getStatusCode()."---";
+        //echo "---".$this->getResponse()->getStatusCode()."---";
 
         if ($this->cacheResponse) {
             $cache_tag = md5($this->getUrl() . $this->acceptContentType . $this->method);

@@ -43,12 +43,30 @@ class ApiWeatherTest extends TestCase
             ->product("forecast_7days")
             ->name("Roncade")
             ->cacheResponse(true)
+            ->language("it")
             ->getJson();
 
         $this->assertJson($responseJson, "Che Response JSON Weather");
-        self::$weather->debug();
+        //self::$weather->debug();
 
-        echo $responseJson;
+        //echo $responseJson;
+
+    }
+
+    public function testGetWeatherLatitudeLongitude()
+    {
+
+        $responseJson = self::$weather
+            ->product("forecast_7days")
+            ->latlon(41.89193, 12.51133)
+            ->cacheResponse(true)
+            ->language("it")
+            ->getJson();
+
+        $this->assertJson($responseJson, "Check Response JSON Weather with latlong");
+        //self::$weather->debug();
+
+        //echo $responseJson;
 
     }
 

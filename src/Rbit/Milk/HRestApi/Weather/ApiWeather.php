@@ -16,6 +16,13 @@ class ApiWeather extends ApiClient
     private string $format = "json";
     private string $paramProduct = "observation";
     private string $paramName = "Berlin";
+    private ?string $paramZipCode = null;
+    private ?bool $paramMetric = null;
+    private ?bool $paramOneobservation = null;
+    private ?float $paramLatitude = null;
+    private ?float $paramLongitude = null;
+
+
 
 
 
@@ -75,7 +82,12 @@ class ApiWeather extends ApiClient
         $this->contentType = "*";
         $this->format = "json";
         $this->paramName = "Berlin";
-        $this->paramProduct ="observation";
+        $this->paramProduct =self::PRODUCT_ALERTS;
+        $this->paramMetric = null;
+        $this->paramOneobservation = null;
+        $this->paramZipCode = null;
+        $this->paramLatitude = null;
+        $this->paramLongitude = null;
 
     }
 
@@ -104,10 +116,63 @@ class ApiWeather extends ApiClient
         $this->paramProduct = $product;
         return $this;
     }
+    /*
+    public function __call($method, $parameters): self
+    {
+        echo "METHOD:". $method;
+        return $this;
+    }
+    */
 
     public function name(string $name): self
     {
         $this->paramName = $name;
+        return $this;
+    }
+
+    public function zipcode(string $zipcode): self
+    {
+        $this->paramZipCode = $zipcode;
+        return $this;
+    }
+
+    public function latlon(float $latitude, float $longitude): self
+    {
+        $this->paramLatitude = $latitude;
+        $this->paramLongitude = $longitude;
+        return $this;
+    }
+
+
+    public function unitMetric(): self
+    {
+        $this->paramMetric = true;
+        return $this;
+    }
+    public function unitImperial(): self
+    {
+        $this->paramMetric = false;
+        return $this;
+    }
+    public function oneObservation(): self
+    {
+        $this->paramOneobservation = true;
+        return $this;
+    }
+    public function moreObservation(): self
+    {
+        $this->paramOneobservation = false;
+        return $this;
+    }
+
+    /**
+     * Set Language. Language code:
+     * https://developer.here.com/documentation/weather/dev_guide/topics/supported-languages.html
+     *
+     */
+    public function language(string $language): self
+    {
+        $this->paramLanguage = $language;
         return $this;
     }
 
@@ -122,6 +187,25 @@ class ApiWeather extends ApiClient
 
         if ($this->paramName) {
             $retString = $this->addQueryParam($retString, "name", $this->paramName);
+        }
+        if ($this->paramZipCode) {
+            $retString = $this->addQueryParam($retString, "zipcode", $this->paramZipCode);
+        }
+
+        if (! is_null($this->paramMetric)) {
+            $retString = $this->addQueryParam($retString, "metric", $this->paramMetric ? "true": "false");
+        }
+
+        if (!is_null($this->paramLanguage)) {
+            $retString = $this->addQueryParam($retString, "language", $this->paramLanguage );
+        }
+
+        if (!is_null($this->paramOneobservation)) {
+            $retString = $this->addQueryParam($retString, "oneobservation", $this->paramOneobservation ? "true" : "false");
+        }
+        if (!is_null($this->paramLatitude) && !is_null($this->paramLongitude)) {
+            $retString = $this->addQueryParam($retString, "latitude", $this->paramLatitude);
+            $retString = $this->addQueryParam($retString, "longitude", $this->paramLongitude);
         }
 
         $retString = $this->addQueryParam($retString, "apiKey", $this->c->getCredentials()->getAccessToken());
