@@ -177,9 +177,11 @@ abstract class ApiClient
     /**
      * @return mixed
      */
-    public function get()
+    public function getJson(): string
     {
         //echo $this->getUrl() . PHP_EOL;
+        //echo "---".$this->getResponse()->getStatusCode()."---";
+
         if ($this->cacheResponse) {
             $cache_tag = md5($this->getUrl() . $this->acceptContentType . $this->method);
             $file_cache = "./cache/" . $cache_tag;
@@ -187,13 +189,22 @@ abstract class ApiClient
                 $content = file_get_contents($file_cache);
             } else {
                 $content = $this->getResponse()->getBody();
-                file_put_contents($file_cache, $content);
+                echo $this->getResponse()->getStatusCode();
+                if ($this->getResponse()->getStatusCode()== 200) {
+                    file_put_contents($file_cache, $content);
+                }
+
             }
         } else {
             $content = $this->getResponse()->getBody();
         }
-        return json_decode($content);
+        return $content;
     }
+    public function get()
+    {
+        return json_decode($this->getJson());
+    }
+
 
     /**
      * Return the URL of the API, replacing the placeholder with real values.
