@@ -1,1 +1,3 @@
 theme: jekyll-theme-cayman
+title: Milk SDK PHP
+description: Milk SDK PHP is a (fluent) open-source PHP library for managing location data (cloud storage, spatial search, weather, geocoding, routing...)
