@@ -10,7 +10,7 @@ class ApiCredentialsTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         Dotenv\Dotenv::createImmutable(__DIR__ . "/../../")->load();
-        self::$apiToken = getenv('HAPI_ACCESS_TOKEN');
+        self::$apiToken = getenv('HERE_API_KEY');
     }
 
 

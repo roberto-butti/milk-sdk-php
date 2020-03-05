@@ -195,6 +195,18 @@ $spaceId = "yourspaceid";
 $result = XyzSpaceFeature::instance($xyzToken)->spatial($spaceId,  41.890251, 12.492373,  1000)->get();
 ```
 
+## Weather API
+
+To retrieve weather forecasts in Berlin:
+
+```php
+$jsonWeather = ApiWeather::instance($hereApiKey)
+    ->productForecast7days()
+    ->name("Berlin")
+    ->getJson();
+var_dump($jsonWeather);
+```
+
 ## Useful reference
 
 ReDoc API documentation:

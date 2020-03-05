@@ -21,6 +21,7 @@ class ApiWeather extends ApiClient
     private ?bool $paramOneobservation = null;
     private ?float $paramLatitude = null;
     private ?float $paramLongitude = null;
+    private ?string $paramLanguage= null;
 
 
 
@@ -88,6 +89,7 @@ class ApiWeather extends ApiClient
         $this->paramZipCode = null;
         $this->paramLatitude = null;
         $this->paramLongitude = null;
+        $this->paramLanguage = null;
 
     }
 
@@ -116,13 +118,41 @@ class ApiWeather extends ApiClient
         $this->paramProduct = $product;
         return $this;
     }
-    /*
+    public function productObservation(): self
+    {
+        return $this->product(self::PRODUCT_OBSERVATION);
+    }
+    public function productAlerts(): self
+    {
+        return $this->product(self::PRODUCT_ALERTS);
+    }
+    public function productForecast7days(): self
+    {
+        return $this->product(self::PRODUCT_FORECAST_7DAYS);
+    }
+    public function productForecast7daysSimple(): self
+    {
+        return $this->product(self::PRODUCT_FORECAST_7DAYS_SIMPLE);
+    }
+    public function productForecastAstronomy(): self
+    {
+        return $this->product(self::PRODUCT_FORECAST_ASTRONOMY);
+    }
+    public function productForecastHourly(): self
+    {
+        return $this->product(self::PRODUCT_FORECAST_HOURLY);
+    }
+    public function productNwsAlerts(): self
+    {
+        return $this->product(self::PRODUCT_NWS_ALERTS);
+    }
+
     public function __call($method, $parameters): self
     {
         echo "METHOD:". $method;
         return $this;
     }
-    */
+
 
     public function name(string $name): self
     {
