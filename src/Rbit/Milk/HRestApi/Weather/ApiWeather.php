@@ -94,11 +94,7 @@ class ApiWeather extends ApiClient
     }
 
 
-    public function get()
-    {
-        $this->httpGet();
-        return  $this->getResponse();
-    }
+
 
     /**
      * Set the product for the Weather API
