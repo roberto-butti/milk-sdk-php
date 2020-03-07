@@ -145,9 +145,10 @@ abstract class ApiClient
      * @param $name
      * @param $value
      */
-    protected function addQueryParam(string $url, string $name, $value): string
+    protected function addQueryParam(string $url, string $name, $value, $encodeValue = true): string
     {
-        $url .= (parse_url($url, PHP_URL_QUERY) ? '&' : '?') . urlencode($name) . '=' . urlencode($value);
+        $value = $encodeValue ? urlencode($value) : $value;
+        $url .= (parse_url($url, PHP_URL_QUERY) ? '&' : '?') . urlencode($name) . '=' . $value;
         return $url;
     }
 
