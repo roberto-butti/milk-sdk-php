@@ -100,4 +100,12 @@ class ApiAuth
     }
 
 
+    public static function getAccessToken($accessKeyId, $accessKeySecret)
+    {
+        $stringJson = self::createSignature($accessKeyId, $accessKeySecret);
+        $myToken = json_decode($stringJson)->access_token;
+        return $myToken;
+    }
+
+
 }
