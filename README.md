@@ -212,11 +212,11 @@ $jsonWeather = ApiWeather::instance($hereApiKey)
 var_dump($jsonWeather);
 ```
 
-## Routing API
+## Routing API (v7)
 To retrive the fastest route by foot
 
 ```php
-$r =Routing::instance($hereApiKey)
+$r =RoutingV7::instance($hereApiKey)
   ->byFoot()
   ->typeFastest()
   ->startingPoint(52.5160,13.3779)

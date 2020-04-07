@@ -9,10 +9,10 @@ use Rbit\Milk\HRestApi\Common\ApiConfig;
 use Rbit\Milk\HRestApi\Common\LatLong;
 
 /**
- * Class Routing
- * @package Rbit\Milk\HRestApi\Weather
+ * Class RoutingV7
+ * @package Rbit\Milk\HRestApi\Routing
  */
-class Routing extends ApiClient
+class RoutingV7 extends ApiClient
 {
     private string $format = "json";
     /**
@@ -43,13 +43,13 @@ class Routing extends ApiClient
     public static function instance($apiToken = ""): self
     {
         $hostname = "https://route.ls.hereapi.com";
-        $routing = Routing::config(ApiConfig::getInstance($apiToken, $hostname, self::ENV_WEATHER));
+        $routing = self::config(ApiConfig::getInstance($apiToken, $hostname, self::ENV_WEATHER));
         return $routing;
     }
 
     public static function config(ApiConfig $c): self
     {
-        $routing = new Routing();
+        $routing = new self();
         $routing->c = $c;
         return $routing;
     }
