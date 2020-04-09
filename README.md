@@ -224,6 +224,21 @@ $r =RoutingV7::instance($hereApiKey)
   ->getManeuverInstructions();
 ```
 
+## Routing API (v8)
+To retrive the fastest route by car
+
+```php
+$routing = RoutingV8::instance($hereApiKey)
+    ->byCar()
+    ->routingModeFast()
+    ->startingPoint(52.5160, 13.3779)
+    ->destination(52.5185, 13.4283)
+    ->returnInstructions()
+    ->langIta()
+    ->get();
+```
+
+
 
 ## Useful reference
 
