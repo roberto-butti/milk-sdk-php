@@ -234,14 +234,19 @@ abstract class ApiClient
         $client = new Client();
 
         $headers = [
-            'User-Agent' => 'milk-sdk-php/0.1.0',
-            'Accept'     => $acceptContentType,
+            'User-Agent' => 'milk-sdk-php/0.1.0'
         ];
+        if ($acceptContentType !== "") {
+            $headers['Accept'] = $acceptContentType;
+        }
         if ($this->c->getCredentials()->getAccessToken() != "") {
             $headers['Authorization'] = "Bearer {$this->c->getCredentials()->getAccessToken()}";
         }
         if (in_array($method,  ["POST", "PATCH", "PUT", "DELETE"])) {
-            $headers['Content-Type'] = $contentType;
+            if ($contentType !== ""){
+                $headers['Content-Type'] = $contentType;
+            }
+
         }
 
 

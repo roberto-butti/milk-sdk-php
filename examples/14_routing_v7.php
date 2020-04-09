@@ -18,7 +18,8 @@ $r = RoutingV7::instance($hereApiKey)
     ->typeFastest()
     ->startingPoint(52.5160, 13.3779)
     ->destination(52.5185, 13.4283)
-    ->getManeuverInstructions();
+    //->getManeuverInstructions();
+    ->getUrl();
 
 
 
